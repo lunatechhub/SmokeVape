@@ -34,7 +34,15 @@ export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination
 
 /* Hours are stored as minutes-from-midnight so the "open now" line can be
    computed. A close value of 1440 rolls over to midnight (Fri/Sat close at
-   12 AM the following morning). */
+   12 AM the following morning).
+
+   `open` and `close` are held apart rather than as one pre-joined string:
+   the footer sets each on its own grid track, so the opening times share a
+   right edge, the dashes share an x and the closing times share a right
+   edge. `display` is derived from the pair, keeping one source of truth for
+   anything that still wants the times as a single run of text. */
+const openClose = (open, close) => ({ open, close, display: `${open} – ${close}` })
+
 export const hours = [
   {
     id: 'mon-thu',
@@ -42,7 +50,7 @@ export const hours = [
     days: [1, 2, 3, 4],
     opensAt: 10 * 60,
     closesAt: 22 * 60,
-    display: '10 AM – 10 PM',
+    ...openClose('10 AM', '10 PM'),
   },
   {
     id: 'fri-sat',
@@ -50,7 +58,7 @@ export const hours = [
     days: [5, 6],
     opensAt: 10 * 60,
     closesAt: 24 * 60,
-    display: '10 AM – 12 AM',
+    ...openClose('10 AM', '12 AM'),
   },
   {
     id: 'sun',
@@ -58,7 +66,7 @@ export const hours = [
     days: [0],
     opensAt: 12 * 60,
     closesAt: 20 * 60,
-    display: '12 PM – 8 PM',
+    ...openClose('12 PM', '8 PM'),
   },
 ]
 

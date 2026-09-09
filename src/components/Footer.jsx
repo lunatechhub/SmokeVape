@@ -66,14 +66,21 @@ function Footer() {
 
           <div className="footer__column">
             <h3 className="footer__label">Hours</h3>
-            {/* A description list, not a flex row per line: as a two-track
-                grid the days size one column and every time starts at the
-                same x, which justify-between could never guarantee. */}
+            {/* One grid for the whole block, not a grid per row — four shared
+                tracks are what make the days, the opening times, the dashes
+                and the closing times each line up down the column. Splitting
+                the time across three cells is the point: as one string the
+                dash landed at a different x on every row. The dash is
+                decorative, so the reading is "Mon – Thu: 10 AM, 10 PM". */}
             <dl className="footer__hours">
               {hours.map((block) => (
                 <Fragment key={block.id}>
                   <dt className="footer__hours-day">{block.label}</dt>
-                  <dd className="footer__hours-time">{block.display}</dd>
+                  <dd className="footer__hours-open">{block.open}</dd>
+                  <dd className="footer__hours-dash" aria-hidden="true">
+                    &ndash;
+                  </dd>
+                  <dd className="footer__hours-close">{block.close}</dd>
                 </Fragment>
               ))}
             </dl>

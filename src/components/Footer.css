@@ -101,24 +101,49 @@
 
 /* --- Hours ---------------------------------------------------------------- */
 
+/* Four tracks, one grid for every row. Days, opening time, dash and closing
+   time each get their own column, so the four edges line up down the whole
+   block instead of drifting with the width of each string.
+
+   justify-content: start keeps the tracks sized to their content — auto
+   tracks would otherwise stretch to fill the column and pull the times away
+   from the days. Baseline, not centre: the day labels and the times sit on
+   one line so nothing floats a pixel high. */
 .footer__hours {
   display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 32px;
+  grid-template-columns: auto auto auto auto;
+  justify-content: start;
+  /* The tight gap is the one either side of the dash; the days get their
+     wider gutter from padding on the cell itself. */
+  column-gap: 8px;
   row-gap: 12px;
   align-items: baseline;
+  font-size: 0.875rem;
+  line-height: 1.55;
 }
 
 .footer__hours-day {
+  justify-self: start;
+  /* 8px column gap + 16px here = the 24px gutter that sets the days apart
+     from the times as a group. */
+  padding-inline-end: 16px;
   color: #a8a69e;
-  font-size: 0.875rem;
 }
 
-.footer__hours-time {
+/* Both times: digits share one advance width, so 8 PM occupies the same box
+   as 10 PM and the columns stack cleanly. Ends are flush right, which is
+   what puts the single- and double-digit hours on a shared edge. */
+.footer__hours-open,
+.footer__hours-close {
+  justify-self: end;
   color: #f4f3ef;
-  font-size: 0.875rem;
-  /* Digits share one advance width, so the times stack in a clean column. */
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
+}
+
+.footer__hours-dash {
+  justify-self: center;
+  color: #a8a69e;
 }
 
 /* --- Social --------------------------------------------------------------- */
