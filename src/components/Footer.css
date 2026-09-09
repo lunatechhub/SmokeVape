@@ -1,0 +1,181 @@
+.footer {
+  /* Every gap in the footer is this one value: the padding above the
+     masthead, the space either side of both hairlines, and the padding
+     under the legal bar. Nothing here gets its own number. */
+  --band: clamp(28px, 3.4vw, 44px);
+
+  padding-block: var(--band);
+  background-color: var(--ink);
+  color: #f4f3ef;
+}
+
+/* --- Masthead: wordmark + calls to action --------------------------------- */
+
+.footer__masthead {
+  display: grid;
+  gap: var(--band);
+  align-items: end;
+}
+
+/* Ghosted, but still meets large-text contrast against the dark ground. */
+.footer__wordmark {
+  display: flex;
+  flex-direction: column;
+  color: var(--ink-muted);
+  font-size: clamp(3rem, 9.5vw, 6.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.footer__pitch {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.footer__pitch-text {
+  max-width: 34ch;
+  color: #a8a69e;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.footer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* --- Detail columns ------------------------------------------------------- */
+
+.footer__columns {
+  display: grid;
+  gap: var(--band);
+  margin-top: var(--band);
+  padding-top: var(--band);
+  border-top: 1px solid #34342f;
+}
+
+.footer__column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.footer__label {
+  margin-bottom: var(--space-1);
+  color: #a8a69e;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.footer__address {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 6px;
+  font-style: normal;
+  font-size: 0.9375rem;
+  color: #f4f3ef;
+}
+
+.footer__link {
+  position: relative;
+  color: #f4f3ef;
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+/* Underline grows from the left rather than switching on. */
+.footer__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: #a8a69e;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.footer__link:hover::after {
+  transform: scaleX(1);
+}
+
+.footer__hours {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 210px;
+}
+
+.footer__hours-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: 0.9375rem;
+}
+
+.footer__hours-row span:first-child {
+  color: #a8a69e;
+}
+
+.footer__social {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* --- Legal bar ------------------------------------------------------------ */
+
+.footer__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--band);
+  padding-top: var(--band);
+  border-top: 1px solid #34342f;
+}
+
+.footer__legal {
+  color: #a8a69e;
+  font-size: 0.8125rem;
+}
+
+.footer__top-link {
+  color: #a8a69e;
+  font-size: 0.8125rem;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.footer__top-link:hover {
+  color: #f4f3ef;
+}
+
+@media (min-width: 700px) {
+  .footer__columns {
+    grid-template-columns: repeat(3, max-content);
+    column-gap: clamp(48px, 6vw, 96px);
+  }
+}
+
+@media (min-width: 900px) {
+  .footer__masthead {
+    grid-template-columns: 1fr auto;
+    gap: var(--space-8);
+  }
+
+  .footer__pitch {
+    align-items: flex-end;
+    text-align: right;
+  }
+}

@@ -1,0 +1,36 @@
+.nicotine-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--banner-h);
+  padding: 8px 16px;
+  background-color: var(--ink);
+  color: #fff;
+}
+
+.nicotine-banner--top {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+}
+
+/* Sits directly under the dark footer — a hairline keeps the two apart. */
+.nicotine-banner--bottom {
+  border-top: 1px solid #34342f;
+}
+
+.nicotine-banner__text {
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+@media (min-width: 600px) {
+  .nicotine-banner__text {
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+  }
+}

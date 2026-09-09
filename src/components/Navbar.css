@@ -1,0 +1,220 @@
+.navbar {
+  position: sticky;
+  top: var(--banner-h);
+  z-index: 50;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 220ms ease, border-color 220ms ease;
+}
+
+.navbar--scrolled {
+  background-color: var(--surface);
+  border-bottom-color: var(--line);
+}
+
+/* Wordmark left, links centred, phone right. */
+.navbar__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--nav-h);
+}
+
+/* --- Wordmark ------------------------------------------------------------- */
+
+.navbar__wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar__wordmark-dot {
+  color: var(--accent);
+}
+
+/* --- Centre links --------------------------------------------------------- */
+
+.navbar__nav {
+  display: none;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 3.5vw, 44px);
+}
+
+.navbar__link {
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.navbar__link:hover {
+  color: var(--ink);
+}
+
+/* --- Phone ---------------------------------------------------------------- */
+
+.navbar__phone {
+  display: none;
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 150ms ease;
+}
+
+.navbar__phone:hover {
+  color: var(--accent);
+}
+
+/* --- Hamburger ------------------------------------------------------------ */
+
+.navbar__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
+}
+
+.navbar__bars {
+  display: block;
+  position: relative;
+  width: 22px;
+  height: 12px;
+}
+
+.navbar__bars span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: var(--ink);
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.navbar__bars span:first-child {
+  top: 0;
+}
+
+.navbar__bars span:last-child {
+  bottom: 0;
+}
+
+.navbar__bars--open span:first-child {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.navbar__bars--open span:last-child {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+/* --- Mobile overlay ------------------------------------------------------- */
+
+.navbar__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: none;
+  flex-direction: column;
+  gap: var(--space-6);
+  /* Clears the sticky banner + navbar so the first link never sits under the
+     wordmark. */
+  padding: calc(var(--banner-h) + var(--nav-h) + var(--space-5)) var(--page-pad) var(--space-8);
+  background-color: var(--bg);
+}
+
+.navbar__overlay--open {
+  display: flex;
+}
+
+.navbar__overlay-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.navbar__overlay-link {
+  display: inline-block;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+
+.navbar__overlay-link:hover {
+  color: var(--accent-dark);
+}
+
+.navbar__overlay-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.navbar__overlay-phone {
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navbar__overlay-directions {
+  color: var(--accent-dark);
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navbar__overlay-directions:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (min-width: 900px) {
+  .navbar__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .navbar__nav {
+    display: flex;
+    justify-content: center;
+  }
+
+  .navbar__phone {
+    display: inline-block;
+    justify-self: end;
+  }
+
+  .navbar__toggle,
+  .navbar__overlay {
+    display: none;
+  }
+}

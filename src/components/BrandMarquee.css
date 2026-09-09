@@ -1,0 +1,69 @@
+.marquee {
+  padding-block: clamp(28px, 4vw, 40px);
+  border-block: 1px solid var(--line);
+  background-color: var(--surface);
+  overflow: hidden;
+}
+
+.marquee__viewport {
+  display: flex;
+  width: max-content;
+}
+
+.marquee__track {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  animation: marquee-scroll 48s linear infinite;
+}
+
+.marquee__viewport:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__item {
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 4vw, 48px);
+  padding-left: clamp(24px, 4vw, 48px);
+}
+
+.marquee__name {
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.marquee__slash {
+  color: var(--line);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 300;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__viewport {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .marquee__track {
+    animation: none;
+  }
+
+  /* No loop to seam, so drop the duplicated track. */
+  .marquee__track[aria-hidden='true'] {
+    display: none;
+  }
+}

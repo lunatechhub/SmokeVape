@@ -1,0 +1,163 @@
+.hero {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, var(--bg) 0%, #fdfdfc 55%, var(--surface) 100%);
+  padding-block: clamp(40px, 5vw, 68px) clamp(48px, 6vw, 84px);
+}
+
+.hero__inner {
+  display: grid;
+  gap: clamp(32px, 4vw, 64px);
+  align-items: center;
+}
+
+.hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.hero__headline {
+  margin-top: var(--space-1);
+  max-width: 15ch;
+  font-size: clamp(2.75rem, 6.4vw, 5.25rem);
+}
+
+.hero__subtext {
+  max-width: 46ch;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+}
+
+/* --- Status + address line ------------------------------------------------ */
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
+}
+
+.hero__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.hero__status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--ink-muted);
+}
+
+.hero__status--open .hero__status-dot {
+  background-color: var(--accent);
+}
+
+.hero__meta-divider {
+  color: var(--line);
+}
+
+.hero__meta-hours {
+  white-space: nowrap;
+}
+
+/* --- Actions -------------------------------------------------------------- */
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+/* --- Media ---------------------------------------------------------------- */
+
+.hero__media {
+  order: -1;
+}
+
+.hero__image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+/* --- Photo slot (shown only while the file is missing) -------------------- */
+
+.hero__placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: var(--space-4);
+  border: 1px dashed #cfcdc4;
+  border-radius: var(--radius-lg);
+  background-color: var(--accent-soft);
+  text-align: center;
+}
+
+.hero__placeholder-icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: var(--space-1);
+  color: var(--accent);
+}
+
+.hero__placeholder-label {
+  color: var(--ink);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.hero__placeholder-file {
+  color: var(--accent-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875rem;
+  word-break: break-all;
+}
+
+.hero__placeholder-hint {
+  max-width: 40ch;
+  color: var(--ink-muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .hero__image,
+  .hero__placeholder {
+    aspect-ratio: 3 / 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero {
+    min-height: calc(100vh - var(--banner-h) - var(--nav-h));
+  }
+
+  .hero__inner {
+    grid-template-columns: 1.05fr 1fr;
+  }
+
+  .hero__media {
+    order: 0;
+  }
+
+  .hero__image,
+  .hero__placeholder {
+    aspect-ratio: 5 / 6;
+  }
+}
