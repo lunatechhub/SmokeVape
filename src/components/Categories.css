@@ -1,7 +1,15 @@
+/* Categories and Products sit on the same page ground, so the boundary
+   between them was two full section paddings back to back — 128px reading as
+   one empty band. The seam is shared instead: a quarter here, three quarters
+   on .products, for a single clean gap. */
+.categories {
+  padding-bottom: calc(var(--section-y) * 0.25);
+}
+
 .categories__head {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-1);
   margin-bottom: var(--block-gap);
 }
 
@@ -40,7 +48,7 @@
 
 .category-card__image {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 2 / 1;
   object-fit: cover;
 }
 
@@ -48,7 +56,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: var(--space-3) var(--space-3) var(--space-4);
+  padding: var(--space-3) var(--space-3) var(--space-3);
 }
 
 .category-card__number {
@@ -80,7 +88,7 @@
   }
 
   .category-card__image {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 2;
   }
 }
 

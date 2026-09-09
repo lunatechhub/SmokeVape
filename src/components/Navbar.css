@@ -55,6 +55,9 @@
 }
 
 .navbar__link {
+  /* 17px of text is a 17px hit area. The bar has 80px of height to spare, so
+     padding here costs no layout and takes the target past 24px. */
+  padding-block: 6px;
   color: var(--ink-muted);
   font-size: 0.875rem;
   font-weight: 500;
@@ -71,6 +74,7 @@
 /* --- Phone ---------------------------------------------------------------- */
 
 .navbar__phone {
+  padding-block: 6px;
   display: none;
   color: var(--ink-muted);
   font-size: 0.875rem;

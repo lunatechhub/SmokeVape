@@ -1,29 +1,8 @@
 import { useEffect, useState } from 'react'
 import Media from './Media'
-import { addressLine1, directionsUrl, hero, hours, shop } from '../data/site'
+import { getOpenStatus } from '../lib/openStatus'
+import { addressLine1, directionsUrl, hero, shop } from '../data/site'
 import './Hero.css'
-
-/* Works out whether the shop is open right now from the hours data and the
-   visitor's local day + time. Close times are minutes from midnight, so a
-   1440 close (Fri/Sat) simply runs to the end of the day. */
-export function getOpenStatus(now = new Date()) {
-  const day = now.getDay()
-  const minutesNow = now.getHours() * 60 + now.getMinutes()
-  const today = hours.find((block) => block.days.includes(day))
-
-  if (!today) {
-    return { isOpen: false, label: 'Closed today', todayHours: 'Closed' }
-  }
-
-  const isOpen = minutesNow >= today.opensAt && minutesNow < today.closesAt
-  const label = isOpen
-    ? 'Open now'
-    : minutesNow < today.opensAt
-      ? `Opens at ${today.display.split(' – ')[0]}`
-      : 'Closed now'
-
-  return { isOpen, label, todayHours: today.display }
-}
 
 function Hero() {
   const [status, setStatus] = useState(() => getOpenStatus())
@@ -44,7 +23,13 @@ function Hero() {
 
           <p className="hero__meta">
             <span className={`hero__status ${status.isOpen ? 'hero__status--open' : ''}`}>
-              <span className="hero__status-dot" aria-hidden="true" />
+              {/* The ring is a second circle behind the dot; it only renders
+                  while the shop is open, and the animation is dropped under
+                  reduced motion. */}
+              <span className="hero__status-light" aria-hidden="true">
+                {status.isOpen && <span className="hero__status-ring" />}
+                <span className="hero__status-dot" />
+              </span>
               {status.label}
             </span>
             <span className="hero__meta-divider" aria-hidden="true">

@@ -1,0 +1,106 @@
+/* A bar that runs the full width of the viewport and sits on the bottom edge.
+
+   z-index sits above the sticky nicotine banner (60) and the navbar (50); the
+   bottom offset clears the fixed mobile call bar (56px, z-index 40) so the
+   two can never overlap. */
+.cookie {
+  position: fixed;
+  z-index: 70;
+  left: 0;
+  right: 0;
+  bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  background-color: var(--surface);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -10px 34px rgba(28, 28, 26, 0.09);
+  animation: cookie-in 420ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.cookie:focus {
+  outline: none;
+}
+
+/* Stacked on small screens; copy left / buttons right once there is room. */
+.cookie__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-block: var(--space-3);
+}
+
+.cookie__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cookie__title {
+  color: var(--ink);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.cookie__text {
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.cookie__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+/* Smaller than the page's standard button — this is a quiet decision, not a
+   call to action competing with Directions and Call Us. */
+.cookie__btn {
+  min-height: 40px;
+  padding: 8px 22px;
+  font-size: 0.875rem;
+}
+
+@keyframes cookie-in {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .cookie__inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+  }
+
+  /* Measure-capped so the sentence never runs the whole width of a wide
+     monitor as one long line. */
+  .cookie__text {
+    max-width: 78ch;
+  }
+
+  /* The pair holds its size; only the copy column gives way. */
+  .cookie__actions {
+    flex: none;
+  }
+}
+
+/* The call bar is gone from 900px up, so the bar can sit on the page edge. */
+@media (min-width: 900px) {
+  .cookie {
+    bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie {
+    animation: none;
+  }
+}

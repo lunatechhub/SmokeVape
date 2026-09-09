@@ -27,7 +27,7 @@ function Reviews() {
 
           <h2 id="reviews-heading" className="reviews__rating">
             <span aria-hidden="true">{reviews.rating}</span>
-            <span className="visually-hidden">{`${reviews.rating} out of 5`}</span>
+            <span className="visually-hidden">{`Rated ${reviews.rating} out of 5 on Google`}</span>
           </h2>
 
           <Stars count={5} className="reviews__stars" />

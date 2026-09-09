@@ -2,12 +2,12 @@
   display: flex;
   align-items: center;
   background: linear-gradient(180deg, var(--bg) 0%, #fdfdfc 55%, var(--surface) 100%);
-  padding-block: clamp(40px, 5vw, 68px) clamp(48px, 6vw, 84px);
+  padding-block: clamp(24px, 2.6vw, 38px) clamp(28px, 3vw, 44px);
 }
 
 .hero__inner {
   display: grid;
-  gap: clamp(32px, 4vw, 64px);
+  gap: clamp(26px, 3vw, 48px);
   align-items: center;
 }
 
@@ -15,18 +15,18 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-4);
+  gap: var(--space-3);
 }
 
 .hero__headline {
-  margin-top: var(--space-1);
-  max-width: 15ch;
-  font-size: clamp(2.75rem, 6.4vw, 5.25rem);
+  margin-top: 2px;
+  max-width: 19ch;
+  font-size: clamp(2.25rem, 4.4vw, 3.5rem);
 }
 
 .hero__subtext {
   max-width: 46ch;
-  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  font-size: clamp(1rem, 1.2vw, 1.0625rem);
 }
 
 /* --- Status + address line ------------------------------------------------ */
@@ -48,15 +48,49 @@
   font-weight: 500;
 }
 
+/* Fixed-size box so the ring can scale without nudging the text beside it. */
+.hero__status-light {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 8px;
+  height: 8px;
+  flex: none;
+}
+
 .hero__status-dot {
-  width: 7px;
-  height: 7px;
+  position: relative;
+  z-index: 1;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background-color: var(--ink-muted);
+  background-color: var(--color-closed);
 }
 
 .hero__status--open .hero__status-dot {
-  background-color: var(--accent);
+  background-color: var(--color-open);
+}
+
+.hero__status-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: var(--color-open);
+  opacity: 0.6;
+  animation: status-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes status-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  75%,
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
 }
 
 .hero__meta-divider {
@@ -73,7 +107,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-top: var(--space-2);
+  margin-top: var(--space-1);
 }
 
 /* --- Media ---------------------------------------------------------------- */
@@ -84,10 +118,11 @@
 
 .hero__image {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
+  object-position: 50% 50%;
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
+  box-shadow: 0 18px 44px rgba(28, 28, 26, 0.14), 0 2px 6px rgba(28, 28, 26, 0.06);
 }
 
 /* --- Photo slot (shown only while the file is missing) -------------------- */
@@ -99,7 +134,7 @@
   justify-content: center;
   gap: 6px;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   padding: var(--space-4);
   border: 1px dashed #cfcdc4;
   border-radius: var(--radius-lg);
@@ -139,25 +174,46 @@
 @media (min-width: 768px) {
   .hero__image,
   .hero__placeholder {
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 2 / 1;
   }
 }
 
 @media (min-width: 1024px) {
+  /* Capped, not full-viewport — the marquee and the top of the first product
+     row need to be reachable without a long scroll. */
   .hero {
-    min-height: calc(100vh - var(--banner-h) - var(--nav-h));
+    min-height: 62vh;
   }
 
   .hero__inner {
-    grid-template-columns: 1.05fr 1fr;
+    grid-template-columns: 1fr 1.15fr;
+    align-items: stretch;
+  }
+
+  .hero__copy {
+    justify-content: center;
   }
 
   .hero__media {
     order: 0;
+    display: flex;
+    min-height: 0;
   }
 
+  /* A definite height, not height:100%. The media column's height is set by
+     this row, so a percentage here has nothing to resolve against and the
+     image falls back to its own (portrait) intrinsic ratio — which is what
+     blew the hero past its cap. Fixed height + cover keeps the photo the
+     tallest thing on screen while the section stays under 70vh. */
   .hero__image,
   .hero__placeholder {
-    aspect-ratio: 5 / 6;
+    aspect-ratio: auto;
+    height: clamp(330px, 46vh, 460px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__status-ring {
+    display: none;
   }
 }

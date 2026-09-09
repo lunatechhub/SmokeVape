@@ -10,7 +10,7 @@ does not match a real file on disk is a broken image on the page.
 Conventions
   products/    fitted with object-fit: contain into a 1:1 card — a square
                cutout on white or transparent looks best, but any ratio works
-  categories/  cropped with object-fit: cover to 4:3 (1:1 from 768px up)
+  categories/  cropped with object-fit: cover to 2:1 (3:2 from 768px up)
   lifestyle/   cropped with object-fit: cover to the hero frame
   favicon.svg  icon, referenced from index.html
 
@@ -37,6 +37,14 @@ categories/
   e-liquids.jpg                  1080x1350
 
 lifestyle/
-  hero-interior.jpg              736x736    used by the hero
-  store-interior.jpg             1134x2016  unused — kept for a future visit/gallery block
-  storefront.jpg                 1200x1200  unused — kept for a future visit/gallery block
+  hero-storefront.jpg            1134x2016  used by the hero
+  hero-interior.jpg              736x736    unused — kept for a future visit/gallery block
+  storefront.jpg                 1200x1200  UNUSABLE — stock sign mockup, carries a
+                                            repeated "Lucky sign" watermark. Replace or
+                                            delete; do not put it on the page.
+
+The hero photo wants a wide, bright, daylit shot of the storefront or the
+product wall. The frame is 16:9 on mobile, 2:1 on tablet, and fills the full
+column height on desktop (object-fit: cover), so a tall or square source crops
+well and a 1920x1080 landscape file is the safe default. Swapping it is a
+drop-in at the same path — update width/height in src/data/site.js to match.

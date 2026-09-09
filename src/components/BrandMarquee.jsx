@@ -20,9 +20,11 @@ function BrandMarquee() {
   return (
     <section className="marquee section--anchor" id="brands" aria-label="Brands we carry">
       <h2 className="visually-hidden">Brands we carry</h2>
-      <div className="marquee__viewport">
-        {track(false)}
-        {track(true)}
+      <div className="marquee__mask">
+        <div className="marquee__viewport">
+          {track(false)}
+          {track(true)}
+        </div>
       </div>
     </section>
   )

@@ -1,10 +1,13 @@
 .footer {
-  /* Every gap in the footer is this one value: the padding above the
-     masthead, the space either side of both hairlines, and the padding
-     under the legal bar. Nothing here gets its own number. */
+  /* Spacing above the masthead and between the masthead and the columns. */
   --band: clamp(28px, 3.4vw, 44px);
 
-  padding-block: var(--band);
+  /* --accent (#5f7a64) lands at roughly 3.5:1 on this near-black ground,
+     under the 4.5:1 AA floor for 14px text. Same hue, lifted for the dark
+     ground so the hover state is actually readable. */
+  --footer-accent: #9dbaa2;
+
+  padding-block: var(--band) 0;
   background-color: var(--ink);
   color: #f4f3ef;
 }
@@ -49,90 +52,109 @@
 
 /* --- Detail columns ------------------------------------------------------- */
 
+/* One track per column, all equal. Nothing here is content-sized and nothing
+   is pushed to an edge, so each heading starts at its own track's left edge.
+   Below 640px the tracks collapse to one and the 40px row gap separates the
+   three blocks. */
 .footer__columns {
   display: grid;
-  gap: var(--band);
+  grid-template-columns: 1fr;
+  align-items: start;
+  column-gap: 48px;
+  row-gap: 40px;
   margin-top: var(--band);
-  padding-top: var(--band);
-  border-top: 1px solid #34342f;
+  padding-top: 56px;
+  padding-bottom: 48px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+/* One rhythm shared by all three columns: 12px between every item, and 20px
+   under the heading (8px margin + the 12px gap). */
 .footer__column {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 12px;
+  text-align: left;
 }
 
 .footer__label {
-  margin-bottom: var(--space-1);
+  margin-bottom: 8px;
   color: #a8a69e;
   font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
+/* Two lines of one item — they sit on their own line-height, not on the
+   column gap, so the address reads as a block rather than as two entries. */
 .footer__address {
   display: flex;
   flex-direction: column;
-  margin-bottom: 6px;
   font-style: normal;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
+  line-height: 1.55;
   color: #f4f3ef;
 }
 
-.footer__link {
-  position: relative;
-  color: #f4f3ef;
-  font-size: 0.9375rem;
-  text-decoration: none;
-}
-
-/* Underline grows from the left rather than switching on. */
-.footer__link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 1px;
-  background-color: #a8a69e;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
-}
-
-.footer__link:hover::after {
-  transform: scaleX(1);
-}
+/* --- Hours ---------------------------------------------------------------- */
 
 .footer__hours {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  min-width: 210px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 32px;
+  row-gap: 12px;
+  align-items: baseline;
 }
 
-.footer__hours-row {
-  display: flex;
-  justify-content: space-between;
-  gap: var(--space-2);
-  font-size: 0.9375rem;
-}
-
-.footer__hours-row span:first-child {
+.footer__hours-day {
   color: #a8a69e;
+  font-size: 0.875rem;
 }
+
+.footer__hours-time {
+  color: #f4f3ef;
+  font-size: 0.875rem;
+  /* Digits share one advance width, so the times stack in a clean column. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Social --------------------------------------------------------------- */
 
 .footer__social {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
 }
 
-/* --- Legal bar ------------------------------------------------------------ */
+/* --- Links ---------------------------------------------------------------- */
+
+.footer__link {
+  /* The padding grows the hit area past 24px; the equal negative margin
+     cancels it in layout, so the 12px column rhythm is unchanged. */
+  padding-block: 4px;
+  margin-block: -4px;
+  color: #f4f3ef;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+.footer__link:hover {
+  color: var(--footer-accent);
+}
+
+/* The global focus ring is --accent-dark, which disappears against this
+   ground. Override it inside the footer only. */
+.footer :focus-visible {
+  outline: 2px solid var(--footer-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- Copyright row -------------------------------------------------------- */
 
 .footer__bar {
   display: flex;
@@ -140,9 +162,15 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  margin-top: var(--band);
-  padding-top: var(--band);
-  border-top: 1px solid #34342f;
+  padding-block: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer__bar-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
 }
 
 .footer__legal {
@@ -153,18 +181,11 @@
 .footer__top-link {
   color: #a8a69e;
   font-size: 0.8125rem;
-  text-decoration: none;
-  transition: color 200ms ease;
 }
 
-.footer__top-link:hover {
-  color: #f4f3ef;
-}
-
-@media (min-width: 700px) {
+@media (min-width: 640px) {
   .footer__columns {
-    grid-template-columns: repeat(3, max-content);
-    column-gap: clamp(48px, 6vw, 96px);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -177,5 +198,17 @@
   .footer__pitch {
     align-items: flex-end;
     text-align: right;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer__columns {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__link {
+    transition: none;
   }
 }

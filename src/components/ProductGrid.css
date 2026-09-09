@@ -1,12 +1,22 @@
 .products {
   background-color: var(--bg);
+  /* The other three quarters of the seam shared with .categories above. */
+  padding-top: calc(var(--section-y) * 0.75);
+  padding-bottom: calc(var(--section-y) * 0.75);
 }
 
 .products__head {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-1);
   margin-bottom: var(--block-gap);
+}
+
+/* The one-line note that used to sit alone under the grid now introduces it. */
+.products__intro {
+  margin-top: 2px;
+  color: var(--ink-muted);
+  font-size: 0.9375rem;
 }
 
 .products__grid {
@@ -36,23 +46,117 @@
 
 .product-card__media {
   position: relative;
-  padding: var(--space-3);
+  padding: var(--space-2);
   background-color: var(--surface);
 }
 
-.product-card__badge {
+/* --- Badge ---------------------------------------------------------------- */
+
+/* Collapsed to a dot; the label is clipped by max-width until the card is
+   hovered or focused, which keeps the grid quiet at rest. */
+.badge {
   position: absolute;
   top: var(--space-2);
   right: var(--space-2);
-  padding: 4px 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  max-width: 10px;
+  height: 10px;
+  padding: 0;
   border-radius: var(--radius-pill);
-  background-color: var(--accent-soft);
-  color: var(--accent-dark);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  background-color: transparent;
+  overflow: hidden;
+  transition: max-width 200ms ease, height 200ms ease, padding 200ms ease,
+    background-color 200ms ease, gap 200ms ease;
 }
+
+.badge__dot {
+  width: 10px;
+  height: 10px;
+  flex: none;
+  border-radius: 50%;
+  background-color: var(--badge-color);
+  /* An opaque halo, not a tint: this dot sits on the product photo, so it
+     needs its own ground to stay legible on a dark shot as well as a light
+     one. */
+  box-shadow: 0 0 0 3px var(--surface), 0 1px 3px rgba(28, 28, 26, 0.22);
+  transition: box-shadow 200ms ease;
+}
+
+.badge__label {
+  color: var(--badge-ink);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.product-card:hover .badge,
+.product-card:focus-within .badge {
+  max-width: 160px;
+  height: 22px;
+  gap: 6px;
+  padding: 0 10px;
+  background-color: var(--surface);
+  box-shadow: 0 1px 6px rgba(28, 28, 26, 0.16);
+}
+
+.product-card:hover .badge__dot,
+.product-card:focus-within .badge__dot {
+  box-shadow: none;
+}
+
+.product-card:hover .badge__label,
+.product-card:focus-within .badge__label {
+  opacity: 1;
+}
+
+/* No hover on touch, so the pill is shown outright there. */
+@media (hover: none) {
+  .badge {
+    max-width: 160px;
+    height: 22px;
+    gap: 6px;
+    padding: 0 10px;
+    background-color: var(--surface);
+    box-shadow: 0 1px 6px rgba(28, 28, 26, 0.16);
+  }
+
+  .badge__dot {
+    box-shadow: none;
+  }
+
+  .badge__label {
+    opacity: 1;
+  }
+}
+
+/* --- Badge colours -------------------------------------------------------- */
+
+.badge--best {
+  --badge-color: var(--color-badge-best);
+  --badge-ink: var(--color-badge-best-ink);
+  --badge-ring: rgba(194, 65, 12, 0.16);
+}
+
+.badge--new {
+  --badge-color: var(--color-badge-new);
+  --badge-ink: var(--color-badge-new-ink);
+  --badge-ring: rgba(37, 99, 235, 0.16);
+}
+
+.badge--staff {
+  --badge-color: var(--color-badge-staff);
+  --badge-ink: var(--color-badge-staff-ink);
+  --badge-ring: rgba(124, 58, 237, 0.16);
+}
+
+/* --- Card body ------------------------------------------------------------ */
 
 .product-card__image {
   width: 100%;
@@ -63,9 +167,9 @@
 .product-card__body {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   margin-inline: var(--space-2);
-  padding: var(--space-2) 0 var(--space-3);
+  padding: var(--space-1) 0 var(--space-2);
   border-top: 1px solid var(--line);
 }
 
@@ -76,7 +180,7 @@
 }
 
 .product-card__name {
-  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
   line-height: 1.15;
 }
 
@@ -85,22 +189,42 @@
   font-size: 0.875rem;
 }
 
-/* --- Footnote ------------------------------------------------------------- */
+/* --- Legend --------------------------------------------------------------- */
 
-.products__footnote {
-  margin-top: var(--stack-gap);
+.products__legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin-top: var(--space-3);
   color: var(--ink-muted);
-  font-size: 1rem;
-  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
 }
 
-@media (min-width: 768px) {
+.products__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.products__legend-dot {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background-color: var(--badge-color);
+  box-shadow: 0 0 0 3px var(--badge-ring);
+}
+
+@media (min-width: 640px) {
   .products__grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-3);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
+/* Four across and no wider. 12 products divide into exactly three full rows,
+   so no row is ever left short. */
 @media (min-width: 1024px) {
   .products__grid {
     grid-template-columns: repeat(4, 1fr);
@@ -110,5 +234,11 @@
 @media (prefers-reduced-motion: reduce) {
   .product-card:hover {
     transform: none;
+  }
+
+  .badge,
+  .badge__dot,
+  .badge__label {
+    transition: none;
   }
 }

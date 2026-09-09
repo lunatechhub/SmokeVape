@@ -5,7 +5,7 @@
 
 .trust__grid {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-2);
 }
 
 .trust__item {
@@ -15,31 +15,33 @@
 }
 
 .trust__icon {
-  width: 30px;
-  height: 30px;
-  margin-bottom: var(--space-1);
+  width: 20px;
+  height: 20px;
+  margin-bottom: 2px;
   color: var(--accent);
 }
 
 .trust__title {
-  font-size: 1.25rem;
+  font-size: 1.0625rem;
 }
 
 .trust__text {
-  max-width: 34ch;
+  max-width: 32ch;
   color: var(--ink-muted);
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 @media (min-width: 600px) {
   .trust__grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-6) var(--space-4);
+    gap: var(--space-4) var(--space-3);
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 900px) {
   .trust__grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
   }
 }

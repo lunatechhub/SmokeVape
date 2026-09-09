@@ -65,17 +65,17 @@ export const hours = [
 /* Photography — .jpg files under /images/lifestyle/. width/height are the
    real intrinsic pixels of each file; the CSS crops them to the frame. */
 export const lifestyle = {
-  heroInterior: {
-    src: '/images/lifestyle/hero-interior.jpg',
-    alt: 'Sunlit sales floor at Smoke & Vape Co. with wooden shelves of vape devices and e-liquid',
-    width: 736,
-    height: 736,
-  },
-  storeInterior: {
-    src: '/images/lifestyle/store-interior.jpg',
-    alt: 'Service counter and back wall of devices inside Smoke & Vape Co.',
+  shelfWall: {
+    src: '/images/lifestyle/hero-storefront.jpg',
+    alt: 'Wall of pod systems, mods and e-liquid on lit wooden shelves inside Smoke & Vape Co.',
     width: 1134,
     height: 2016,
+  },
+  neonInterior: {
+    src: '/images/lifestyle/hero-interior.jpg',
+    alt: 'Lit display cases and back wall of devices inside Smoke & Vape Co.',
+    width: 736,
+    height: 736,
   },
   storefront: {
     src: '/images/lifestyle/storefront.jpg',
@@ -90,7 +90,7 @@ export const hero = {
   headline: 'Colorado Springs neighborhood smoke shop.',
   subtext:
     'Fresh disposables, pods and juice on the shelf every week — and someone behind the counter who actually knows the difference.',
-  image: lifestyle.heroInterior,
+  image: lifestyle.neonInterior,
 }
 
 export const brands = [
@@ -152,6 +152,18 @@ export const categories = [
   },
 ]
 
+/* Product badges are colour-led on the card: a dot in the brand colour with
+   the label revealed on hover/focus. `label` is still the full text and is
+   always rendered into an sr-only span, so colour is never the only carrier
+   of the meaning. `id` maps to --color-badge-* in index.css. */
+export const badges = {
+  best: { id: 'best', label: 'Best Seller' },
+  new: { id: 'new', label: 'New' },
+  staff: { id: 'staff', label: 'Staff Pick' },
+}
+
+export const badgeLegend = [badges.best, badges.new, badges.staff]
+
 /* Product names are the real thing — never renamed, abbreviated or numbered,
    and the filename is the slugged name with no numeric prefix, puff count or
    flavour in it. Files live under /images/products/ as .jpg or .png and are
@@ -162,7 +174,7 @@ export const products = [
     name: 'Geek Bar Pulse X',
     meta: 'Geek Bar / 25,000 puffs',
     flavour: 'Assorted',
-    badge: 'Best Seller',
+    badge: badges.best,
     category: 'Disposables',
     image: {
       src: '/images/products/geekbar-pulse-x.jpg',
@@ -176,7 +188,7 @@ export const products = [
     name: 'Lost Mary MO20000 Pro',
     meta: 'Lost Mary / 20,000 puffs',
     flavour: 'Assorted',
-    badge: 'New',
+    badge: badges.new,
     category: 'Disposables',
     image: {
       src: '/images/products/lostmary-mo20000-pro.jpg',
@@ -204,7 +216,7 @@ export const products = [
     name: 'Elf Bar BC5000',
     meta: 'Elf Bar / 5,000 puffs',
     flavour: 'Blue Razz Ice',
-    badge: 'Best Seller',
+    badge: badges.best,
     category: 'Disposables',
     image: {
       src: '/images/products/elfbar-bc5000.jpg',
@@ -218,7 +230,7 @@ export const products = [
     name: 'Lost Mary OS5000',
     meta: 'Lost Mary / 5,000 puffs',
     flavour: 'Strawberry Guava Mint',
-    badge: 'Staff Pick',
+    badge: badges.staff,
     category: 'Disposables',
     image: {
       src: '/images/products/lostmary-os5000.jpg',
@@ -260,7 +272,7 @@ export const products = [
     name: 'Vaporesso XROS 6',
     meta: 'Vaporesso',
     flavour: null,
-    badge: 'New',
+    badge: badges.new,
     category: 'Pod Systems',
     image: {
       src: '/images/products/vaporesso-xros-6.jpg',
@@ -274,7 +286,7 @@ export const products = [
     name: 'Uwell Caliburn G5',
     meta: 'Uwell',
     flavour: null,
-    badge: 'Best Seller',
+    badge: badges.best,
     category: 'Pod Systems',
     image: {
       src: '/images/products/uwell-caliburn-g5.jpg',
@@ -302,7 +314,7 @@ export const products = [
     name: 'Naked 100 — Lava Flow',
     meta: 'Naked 100',
     flavour: 'Strawberry Coconut Pineapple',
-    badge: 'Best Seller',
+    badge: badges.best,
     category: 'E-Liquids',
     image: {
       src: '/images/products/naked-100-lava-flow.jpg',
@@ -316,7 +328,7 @@ export const products = [
     name: 'Vapetasia — Killer Kustard',
     meta: 'Vapetasia',
     flavour: 'Vanilla Custard',
-    badge: 'Staff Pick',
+    badge: badges.staff,
     category: 'E-Liquids',
     image: {
       src: '/images/products/vapetasia-killer-kustard.jpg',
@@ -405,5 +417,17 @@ export const navLinks = [
 
 export const nicotineWarning =
   'WARNING: This product contains nicotine. Nicotine is an addictive chemical.'
+
+/* Cookie notice. The site sets no analytics or tracking cookies today — this
+   is the consent gate to put them behind. `getCookieConsent()` in
+   CookieConsent.jsx is what any future script should check before loading.
+   Keep the wording matched to what the site actually does. */
+export const cookieNotice = {
+  title: 'Cookies',
+  text: 'We keep a single cookie to remember this choice. Nothing tracks you across other sites, and declining leaves the whole shop working exactly as it does now.',
+  accept: 'Accept',
+  decline: 'Decline',
+  manage: 'Cookie preferences',
+}
 
 export const legalLine = '© 2026 Smoke & Vape Co. · 21+ Only'

@@ -9,6 +9,7 @@ import Reviews from './components/Reviews'
 import TrustBadges from './components/TrustBadges'
 import Footer from './components/Footer'
 import MobileCallBar from './components/MobileCallBar'
+import CookieConsent from './components/CookieConsent'
 
 function App() {
   /* One observer reveals every element marked .reveal the first time it
@@ -54,6 +55,7 @@ function App() {
       <Footer />
       <NicotineBanner position="bottom" />
       <MobileCallBar />
+      <CookieConsent />
     </>
   )
 }

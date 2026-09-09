@@ -1,8 +1,26 @@
+/* Full-bleed dark band. The names were washing out against the white page,
+   so the strip carries its own ground instead. */
 .marquee {
-  padding-block: clamp(28px, 4vw, 40px);
-  border-block: 1px solid var(--line);
-  background-color: var(--surface);
+  padding-block: 20px;
+  background-color: var(--ink);
   overflow: hidden;
+}
+
+/* Names dissolve into the band at both edges rather than being clipped
+   mid-letter. The mask sits here, not on .marquee__viewport — the viewport is
+   max-content wide, so a percentage gradient there would fade against the
+   whole track instead of the screen edges. The dark ground stays on .marquee
+   so only the names fade, not the band itself. */
+.marquee__mask {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
 }
 
 .marquee__viewport {
@@ -24,23 +42,26 @@
 .marquee__item {
   display: flex;
   align-items: center;
-  gap: clamp(24px, 4vw, 48px);
-  padding-left: clamp(24px, 4vw, 48px);
+  gap: clamp(20px, 2.6vw, 32px);
+  padding-left: clamp(20px, 2.6vw, 32px);
 }
 
 .marquee__name {
-  color: var(--ink);
-  font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  color: var(--bg);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
   line-height: 1.1;
-  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
   white-space: nowrap;
 }
 
 .marquee__slash {
-  color: var(--line);
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  color: var(--bg);
+  font-size: 0.875rem;
   font-weight: 300;
+  opacity: 0.4;
 }
 
 @keyframes marquee-scroll {
@@ -53,6 +74,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .marquee__mask {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
   .marquee__viewport {
     width: 100%;
     overflow-x: auto;
