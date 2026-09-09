@@ -24,13 +24,18 @@
 /* Ghosted, but still meets large-text contrast against the dark ground. */
 .footer__wordmark {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  /* The two halves are separate spans, so the word space between them has
+     to be drawn here rather than coming from the markup. */
+  gap: 0.25em;
   color: var(--ink-muted);
-  /* Two lines at line-height 0.9, so this is the single tallest block in
-     the footer. Capped where it still reads as the ghosted masthead it is
-     without setting the whole footer's height on its own — below about
-     4.5rem the masthead stops shrinking anyway, since the pitch column
-     beside it becomes the taller of the two. */
+  /* Set on one line, so the constraint here is horizontal, not vertical:
+     the whole name runs about 5.7em wide and has to clear the pitch column
+     sharing the masthead row. The 7vw term is what keeps it inside that
+     track between 900px and the 1280px shell cap; the 2.5rem floor still
+     fits a 320px screen. Height is no longer the pitch — at 4.75rem the
+     line is 68px against the pitch column's 122px, so the wordmark has
+     stopped driving the footer's height at all. */
   font-size: clamp(2.5rem, 7vw, 4.75rem);
   line-height: 0.9;
   letter-spacing: -0.03em;
