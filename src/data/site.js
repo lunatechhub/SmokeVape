@@ -149,7 +149,7 @@ export const categories = [
     blurb: 'Refillable kits for anyone done buying a new device every week.',
     image: {
       src: '/images/categories/pod-systems.jpg',
-      alt: 'Refillable pod systems from Vaporesso, Uwell and VooPoo in a glass counter',
+      alt: 'Three SMOK Novo Pro refillable pod systems in carbon black, blue and green',
       width: 600,
       height: 600,
     },
