@@ -89,31 +89,13 @@
      than being stretched to match its neighbours. */
   .categories__grid {
     grid-template-columns: repeat(3, 1fr);
-    align-items: start;
     gap: var(--space-2);
   }
 
-  /* Three different crops, so the three cards land at visibly different
-     heights instead of reading as one ruled band. */
+  /* One crop for all three. Three different ratios made the cards read as
+     three different sizes rather than as a set. */
   .category-card__image {
-    aspect-ratio: 3 / 2;
-  }
-
-  .category-card:nth-child(1) .category-card__image {
-    aspect-ratio: 4 / 5;
-  }
-
-  .category-card:nth-child(2) .category-card__image {
-    aspect-ratio: 1 / 1;
-  }
-
-  .category-card:nth-child(3) .category-card__image {
-    aspect-ratio: 5 / 4;
-  }
-
-  /* The middle card drops a little below the line the other two sit on. */
-  .category-card:nth-child(2) {
-    margin-top: clamp(20px, 3vw, 44px);
+    aspect-ratio: 4 / 3;
   }
 }
 

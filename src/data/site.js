@@ -96,8 +96,8 @@ export const lifestyle = {
   neonInterior: {
     src: '/images/lifestyle/hero-interior-wide.jpg',
     alt: 'Lit display cases and back wall of devices inside Smoke & Vape Co.',
-    width: 736,
-    height: 491,
+    width: 1472,
+    height: 982,
   },
   storefront: {
     src: '/images/lifestyle/storefront.jpg',

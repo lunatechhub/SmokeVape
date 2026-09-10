@@ -158,10 +158,16 @@
 
 /* --- Card body ------------------------------------------------------------ */
 
+/* cover, not contain. The product photos come from a dozen different
+   sources at every shape from square to tall portrait, and contained in a
+   square box they painted anywhere from 168px to 298px wide — the same box
+   every time, but the picture inside a different size on every card. Cover
+   fills the square identically on all twelve so the grid reads as a set. */
 .product-card__image {
   width: 100%;
   aspect-ratio: 1 / 1;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: 50% 50%;
 }
 
 .product-card__body {
