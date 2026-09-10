@@ -149,7 +149,9 @@
 
 .hero__image {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  /* 3:2 here as well. 16:9 against a square source was cutting 44% of the
+     photo on a phone — worse than the desktop slot it was meant to relieve. */
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: 50% 50%;
 }
@@ -164,7 +166,7 @@
   justify-content: center;
   gap: 6px;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 3 / 2;
   padding: var(--space-4);
   border: 1px dashed #cfcdc4;
   background-color: var(--accent-soft);
@@ -200,10 +202,11 @@
   line-height: 1.5;
 }
 
+/* One slot shape at every width: 2:1 here was throwing away half the file. */
 @media (min-width: 768px) {
   .hero__image,
   .hero__placeholder {
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 3 / 2;
   }
 }
 
@@ -232,12 +235,25 @@
 
   /* Full height of the row, flush to the right edge, and rounded on the left
      only — the right side is a cut edge, not a card corner. */
-  /* No min-height. A floor here would make the photo taller than the copy on
-     a tall viewport and reopen a band of ground above and below it; the row
-     is sized by the text column alone so the two edges match exactly. */
+  /* The photograph is square (736x736). Sized to the copy column alone the
+     slot came out at 1.82:1, and object-fit: cover answered that by throwing
+     away 45% of the picture — the ceiling and the floor of the shop. The
+     ::before gives the column an intrinsic height of two thirds of its
+     width, so the slot is 3:2 and the crop drops to about a third — and what
+     goes is the ceiling and the carpet, not the shelves. A squarer slot
+     would keep more of the file but push the photo past the fold on a short
+     window, which costs more than it buys. Stretch
+     still applies on top, so if the copy is ever the taller of the two the
+     photo follows it rather than leaving a band. */
   .hero__media {
     position: relative;
     align-self: stretch;
+  }
+
+  .hero__media::before {
+    content: '';
+    display: block;
+    padding-top: 66.667%;
   }
 
   /* A definite height, not height:100%. The media column's height is set by
