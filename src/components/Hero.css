@@ -213,10 +213,13 @@
      viewport edge. max() covers both cases: below 1280px there is no gutter
      to add, above it the gutter plus the page padding is the inset. */
   .hero__inner {
-    grid-template-columns: 1fr 1.15fr;
+    /* The photo takes the larger share. Widening the column is what makes
+       the picture bigger without letting it run taller than the text beside
+       it, which is what keeps their top and bottom edges level. */
+    grid-template-columns: 1fr 1.4fr;
     /* Text centred against the photo; the photo overrides this to stretch. */
     align-items: center;
-    gap: var(--space-10);
+    gap: var(--space-8);
     padding-left: max(
       var(--page-pad),
       calc((100% - var(--page-max)) / 2 + var(--page-pad))

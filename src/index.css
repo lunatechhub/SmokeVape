@@ -57,7 +57,11 @@
   --stack-gap: clamp(15px, 1.8vw, 23px);
 
   /* Shell */
-  --page-max: 1280px;
+  /* 1280 left a 120px gutter either side on a 1521px screen, and with the
+     hero photo bleeding right the whole of that slack collected on the left
+     as dead ground. 1440 pulls every section's content edge in to ~96px
+     while keeping them all on the same line. */
+  --page-max: 1440px;
   --page-pad: clamp(20px, 5vw, 56px);
 
   /* Chrome heights */
