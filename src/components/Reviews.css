@@ -1,56 +1,62 @@
 .reviews {
   background-color: var(--accent-soft);
-  /* A colour change carries some of the separation here, so this side of the
-     seam does not need a full section's worth of padding. */
-  padding-top: calc(var(--section-y) * 0.75);
+  padding-block: 56px;
 }
 
 .reviews__layout {
   display: grid;
-  gap: clamp(36px, 4.5vw, 56px);
+  gap: 48px;
 }
 
 /* --- Left column: score + the ask ----------------------------------------- */
 
+/* A compact block, top-aligned. Nothing stretches it to match the column of
+   quotes beside it — that is what left the tall empty area underneath. */
 .reviews__aside {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
+.reviews__aside .eyebrow {
+  margin-bottom: 12px;
+}
+
 .reviews__rating {
-  margin-top: var(--space-1);
+  margin-bottom: 8px;
   font-size: clamp(3.25rem, 7vw, 5rem);
   line-height: 0.82;
   letter-spacing: -0.04em;
 }
 
 .reviews__stars {
-  margin-top: var(--space-2);
+  margin-bottom: 8px;
   color: var(--accent);
   font-size: 1.0625rem;
   letter-spacing: 0.2em;
 }
 
 .reviews__count {
-  margin-top: var(--space-1);
+  margin-bottom: 32px;
   color: var(--ink-muted);
   font-size: 0.9375rem;
 }
 
+/* The border is the hairline: 32px above it from the count, 32px below it
+   to the button, then 16px from the button to the tagline. */
 .reviews__ask {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-2);
-  margin-top: var(--space-4);
-  padding-top: var(--space-4);
+  gap: 16px;
+  padding-top: 32px;
   border-top: 1px solid #dfe6dd;
   width: 100%;
 }
 
+/* Two lines, not three. */
 .reviews__note {
-  max-width: 30ch;
+  max-width: 28ch;
   color: var(--ink-muted);
   font-size: 0.875rem;
   line-height: 1.6;
@@ -58,34 +64,41 @@
 
 /* --- Right column: the quotes --------------------------------------------- */
 
+/* Capped so a quote line lands around 60-70 characters rather than running
+   to 95. Measured, not assumed: ch here resolves against the list's sans
+   font while the quotes are set in the serif, so 62ch actually produced 73
+   characters. 58ch measures 63-68 across the four quotes. */
 .reviews__list {
   display: flex;
   flex-direction: column;
+  gap: 40px;
+  max-width: 58ch;
 }
 
-.review {
-  padding-block: clamp(18px, 2.2vw, 26px);
-  border-top: 1px solid #dfe6dd;
+/* The rule belongs to the block above it and sits 20px under the
+   attribution row, so the last quote closes without a trailing line. */
+.review:not(:last-child) {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dfe6dd;
 }
 
-.review:first-child {
-  padding-top: 0;
-  border-top: 0;
-}
-
-.review:last-child {
-  padding-bottom: 0;
-}
-
-/* Serif at reading size, with the opening quote hung into the margin so the
-   first letter still lines up with the rule above it. */
+/* Only the opening quotation mark hangs. The padding puts the text's left
+   edge one mark-width in and the negative indent pulls just the first line
+   back out, so every line of the quote — first and wrapped — shares one
+   left edge instead of the second line stepping in. */
 .review__quote p {
   color: var(--ink);
   font-family: var(--font-serif);
   font-size: clamp(1.25rem, 1.9vw, 1.625rem);
-  line-height: 1.34;
+  line-height: 1.375;
   letter-spacing: -0.01em;
+  padding-left: 0.42em;
   text-indent: -0.42em;
+  /* The measure is capped in em of the quote's own size, not in ch of the
+     list's. The quote steps down from 26px to 20px on a narrower screen, so
+     a fixed cap on the container let the line run to 90 characters there
+     while measuring 68 on desktop. In em it holds at 65 at both. */
+  max-width: 22em;
 }
 
 .review__quote p::before {
@@ -100,7 +113,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin-top: var(--space-2);
+  margin-top: 16px;
 }
 
 .review__name {
@@ -124,16 +137,26 @@
   letter-spacing: 0.16em;
 }
 
-@media (min-width: 900px) {
-  .reviews__layout {
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: clamp(48px, 6vw, 104px);
+@media (min-width: 1024px) {
+  .reviews {
+    padding-block: 80px;
   }
 
-  /* The score holds its place while the quotes scroll past it. */
+  .reviews__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    column-gap: 64px;
+  }
+
+  /* Sticky rather than stretched: the block holds its place while the quotes
+     scroll past, which is what closes the dead space under it. align-self is
+     start so the grid never stretches it to the row height.
+
+     The spec asked for 112px, but the banner and the sticky navbar occupy
+     the first 115px of the viewport, so the block would tuck under them.
+     This is the same offset measured from the bottom of that chrome. */
   .reviews__aside {
     position: sticky;
-    top: calc(var(--banner-h) + var(--nav-h) + var(--space-5));
+    top: calc(var(--banner-h) + var(--nav-h) + 16px);
     align-self: start;
   }
 }

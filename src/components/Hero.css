@@ -149,9 +149,8 @@
 
 .hero__image {
   width: 100%;
-  /* 3:2 here as well. 16:9 against a square source was cutting 44% of the
-     photo on a phone — worse than the desktop slot it was meant to relieve. */
-  aspect-ratio: 3 / 2;
+  /* Square, matching the file, so a phone shows the whole photo too. */
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   object-position: 50% 50%;
 }
@@ -166,7 +165,7 @@
   justify-content: center;
   gap: 6px;
   width: 100%;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 1 / 1;
   padding: var(--space-4);
   border: 1px dashed #cfcdc4;
   background-color: var(--accent-soft);
@@ -202,11 +201,11 @@
   line-height: 1.5;
 }
 
-/* One slot shape at every width: 2:1 here was throwing away half the file. */
+/* One slot shape at every width, matched to the file's own. */
 @media (min-width: 768px) {
   .hero__image,
   .hero__placeholder {
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 1 / 1;
   }
 }
 
@@ -216,10 +215,10 @@
      viewport edge. max() covers both cases: below 1280px there is no gutter
      to add, above it the gutter plus the page padding is the inset. */
   .hero__inner {
-    /* The photo takes the larger share. Widening the column is what makes
-       the picture bigger without letting it run taller than the text beside
-       it, which is what keeps their top and bottom edges level. */
-    grid-template-columns: 1fr 1.4fr;
+    /* The photo column is sized so a square slot stays a sensible height:
+       at 1536 it comes to about 517px, which keeps the whole hero inside a
+       674px window. The text column takes whatever is left. */
+    grid-template-columns: minmax(0, 1fr) clamp(380px, 34vw, 560px);
     /* Text centred against the photo; the photo overrides this to stretch. */
     align-items: center;
     gap: var(--space-8);
@@ -238,11 +237,10 @@
   /* The photograph is square (736x736). Sized to the copy column alone the
      slot came out at 1.82:1, and object-fit: cover answered that by throwing
      away 45% of the picture — the ceiling and the floor of the shop. The
-     ::before gives the column an intrinsic height of two thirds of its
-     width, so the slot is 3:2 and the crop drops to about a third — and what
-     goes is the ceiling and the carpet, not the shelves. A squarer slot
-     would keep more of the file but push the photo past the fold on a short
-     window, which costs more than it buys. Stretch
+     ::before gives the column an intrinsic height equal to its width, so the
+     slot is square like the file and nothing is cropped at all. The column
+     is narrower than a landscape slot would be — that is the price of
+     showing the whole picture from a square original. Stretch
      still applies on top, so if the copy is ever the taller of the two the
      photo follows it rather than leaving a band. */
   .hero__media {
@@ -253,7 +251,7 @@
   .hero__media::before {
     content: '';
     display: block;
-    padding-top: 66.667%;
+    padding-top: 100%;
   }
 
   /* A definite height, not height:100%. The media column's height is set by
