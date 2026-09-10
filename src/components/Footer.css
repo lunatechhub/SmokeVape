@@ -100,20 +100,18 @@
   text-align: left;
 }
 
+/* Kept in the display face for identity, but on the column's own text size:
+   at 1.125rem its cap-height sat proud of the first items beside it. Every
+   item in all four columns is now 0.875rem on the shared line box. */
 .footer__brand-name {
   color: #f4f3ef;
   font-family: var(--font-serif);
-  font-size: 1.125rem;
   letter-spacing: -0.01em;
 }
 
-.footer__brand-line {
-  color: #a8a69e;
-}
-
+.footer__brand-line,
 .footer__brand-age {
   color: #a8a69e;
-  font-size: 0.8125rem;
 }
 
 .footer__label {
@@ -270,15 +268,6 @@
 @media (min-width: 640px) {
   .footer__columns {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* The brand block carries no heading, so once it sits beside a column that
-     does, it buys back the space one would have taken: the label box
-     (0.75rem at line-height 1) plus the 24px under it. That lands its first
-     line on the shared first-item baseline. Stacked at one column there is
-     nothing to align to, so the offset would just read as a stray gap. */
-  .footer__column--brand {
-    margin-top: calc(0.75rem + 24px);
   }
 }
 
