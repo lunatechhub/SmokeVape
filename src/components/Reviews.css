@@ -144,8 +144,13 @@
     padding-block: 56px;
   }
 
+  /* The quotes column is sized to the measure itself, so it finishes on the
+     container's right edge — the same line as the navbar's phone number —
+     instead of stopping short and leaving a band of empty ground beside it.
+     The score block takes the slack, where it reads as the margin of a text
+     block rather than as a hole. */
   .reviews__layout {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 58ch);
     column-gap: 56px;
   }
 

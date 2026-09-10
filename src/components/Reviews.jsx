@@ -26,14 +26,24 @@ function useCountUp(value, duration = 620) {
     if (!('IntersectionObserver' in window)) return undefined
 
     let frame = 0
+    let settle = 0
     const observer = new IntersectionObserver(
       (entries) => {
         if (!entries.some((entry) => entry.isIntersecting)) return
         observer.disconnect()
         const start = performance.now()
         setShown('0.0')
+        /* A backstop. requestAnimationFrame is throttled to a standstill in
+           a background tab, and a frame loop that stops halfway leaves the
+           shop's rating reading whatever it had counted to -- 2.5 out of 5.
+           This lands the true value once, whatever the frames did. */
+        settle = setTimeout(() => setShown(value), duration + 200)
         const step = (now) => {
-          const t = Math.min((now - start) / duration, 1)
+          /* Clamped at both ends. The first frame's timestamp can precede
+             the performance.now() taken a moment earlier, which made t
+             negative, and a negative t through the ease returns a negative
+             number — the score rendered as "-0.2" for a frame. */
+          const t = Math.min(Math.max((now - start) / duration, 0), 1)
           /* Ease out, so it settles rather than stopping dead. */
           const eased = 1 - (1 - t) ** 3
           setShown((target * eased).toFixed(1))
@@ -49,6 +59,7 @@ function useCountUp(value, duration = 620) {
     return () => {
       observer.disconnect()
       cancelAnimationFrame(frame)
+      clearTimeout(settle)
     }
   }, [target, duration, value])
 
