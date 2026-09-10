@@ -13,8 +13,13 @@
   margin-bottom: var(--block-gap);
 }
 
+/* The line reads as one phrase, so it sits on one line. 14ch clipped it at
+   334.9px against the 385.5px it needs and broke it after the comma. 17ch
+   clears that at every step of the heading's clamp — at the 2rem floor the
+   line is 237px against a 280px shell — while still capping a longer
+   heading if the copy ever changes. */
 .categories__heading {
-  max-width: 14ch;
+  max-width: 17ch;
 }
 
 .categories__grid {
