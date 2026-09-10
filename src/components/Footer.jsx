@@ -67,21 +67,33 @@ function Footer() {
 
           <div className="footer__column">
             <h3 className="footer__label">Hours</h3>
-            {/* One grid for the whole block, not a grid per row — four shared
-                tracks are what make the days, the opening times, the dashes
-                and the closing times each line up down the column. Splitting
-                the time across three cells is the point: as one string the
-                dash landed at a different x on every row. The dash is
-                decorative, so the reading is "Mon – Thu: 10 AM, 10 PM". */}
+            {/* One grid for the whole block, not a grid per row: six shared
+                tracks are what line the rows up. Hour and meridiem are set
+                apart because a joined string cannot align — tabular-nums
+                equalises digits, not string lengths, so "8 PM" ran 10px
+                narrower than "10 PM". Hours are flush right (8 lands under
+                the 0 of 10), meridiems flush left, and the dash is centred.
+
+                Each time stays one <dd> carrying the text "10 AM" so screen
+                readers still read a time rather than four loose tokens; the
+                dd is display: contents, which lifts its two spans into the
+                grid as cells of their own. The dash is decorative, so the
+                reading is "Mon – Thu: 10 AM, 10 PM". */}
             <dl className="footer__hours">
               {hours.map((block) => (
                 <Fragment key={block.id}>
                   <dt className="footer__hours-day">{block.label}</dt>
-                  <dd className="footer__hours-open">{block.open}</dd>
+                  <dd className="footer__hours-time">
+                    <span className="footer__hours-hour">{block.open.hour}</span>{' '}
+                    <span className="footer__hours-meridiem">{block.open.meridiem}</span>
+                  </dd>
                   <dd className="footer__hours-dash" aria-hidden="true">
                     &ndash;
                   </dd>
-                  <dd className="footer__hours-close">{block.close}</dd>
+                  <dd className="footer__hours-time">
+                    <span className="footer__hours-hour">{block.close.hour}</span>{' '}
+                    <span className="footer__hours-meridiem">{block.close.meridiem}</span>
+                  </dd>
                 </Fragment>
               ))}
             </dl>

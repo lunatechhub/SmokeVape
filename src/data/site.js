@@ -36,12 +36,21 @@ export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination
    computed. A close value of 1440 rolls over to midnight (Fri/Sat close at
    12 AM the following morning).
 
-   `open` and `close` are held apart rather than as one pre-joined string:
-   the footer sets each on its own grid track, so the opening times share a
-   right edge, the dashes share an x and the closing times share a right
-   edge. `display` is derived from the pair, keeping one source of truth for
-   anything that still wants the times as a single run of text. */
-const openClose = (open, close) => ({ open, close, display: `${open} – ${close}` })
+   `open` and `close` are held apart rather than as one pre-joined string,
+   and each is split again into hour and meridiem. The footer gives all four
+   parts their own grid track: hours align on their units digit, so a
+   single-digit 8 sits under the 0 of 10, and every AM/PM starts at one x.
+   Joined strings cannot do this — tabular-nums equalises digits, not string
+   lengths, so "8 PM" ran 10px narrower than "10 PM" and "AM" is a further
+   0.95px wider than "PM". `display` is derived from the pair, keeping one
+   source of truth for anything wanting the time as a single run of text. */
+const time = (hour, meridiem) => ({ hour, meridiem, text: `${hour} ${meridiem}` })
+
+const openClose = (open, close) => ({
+  open,
+  close,
+  display: `${open.text} – ${close.text}`,
+})
 
 export const hours = [
   {
@@ -50,7 +59,7 @@ export const hours = [
     days: [1, 2, 3, 4],
     opensAt: 10 * 60,
     closesAt: 22 * 60,
-    ...openClose('10 AM', '10 PM'),
+    ...openClose(time('10', 'AM'), time('10', 'PM')),
   },
   {
     id: 'fri-sat',
@@ -58,7 +67,7 @@ export const hours = [
     days: [5, 6],
     opensAt: 10 * 60,
     closesAt: 24 * 60,
-    ...openClose('10 AM', '12 AM'),
+    ...openClose(time('10', 'AM'), time('12', 'AM')),
   },
   {
     id: 'sun',
@@ -66,7 +75,7 @@ export const hours = [
     days: [0],
     opensAt: 12 * 60,
     closesAt: 20 * 60,
-    ...openClose('12 PM', '8 PM'),
+    ...openClose(time('12', 'PM'), time('8', 'PM')),
   },
 ]
 

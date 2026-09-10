@@ -141,21 +141,23 @@
 
 /* --- Hours ---------------------------------------------------------------- */
 
-/* Four tracks, one grid for every row. Days, opening time, dash and closing
-   time each get their own column, so the four edges line up down the whole
-   block instead of drifting with the width of each string.
+/* Six tracks, one grid for every row: day, hour, meridiem, dash, hour,
+   meridiem. Hour and meridiem are separate cells because a joined time
+   cannot be made to align — tabular-nums equalises digits, not string
+   lengths, so "8 PM" measured 10px narrower than "10 PM", and "AM" is a
+   further 0.95px wider than "PM". Apart, each part owns an edge.
+
+   The base column-gap is the word space between an hour and its meridiem;
+   the two wider gutters are bought with padding and margin on the cells
+   that need them, since one grid has only one column-gap to give.
 
    justify-content: start keeps the tracks sized to their content — auto
-   tracks would otherwise stretch to fill the column and pull the times away
-   from the days. Baseline, not centre: the day labels and the times sit on
-   one line so nothing floats a pixel high. */
+   tracks would otherwise stretch and pull the times away from the days. */
 .footer__hours {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
   justify-content: start;
-  /* The tight gap is the one either side of the dash; the days get their
-     wider gutter from padding on the cell itself. */
-  column-gap: 8px;
+  column-gap: 4px;
   row-gap: var(--footer-step);
   align-items: baseline;
   /* A time broken across two lines ("10" / "AM") destroys the column this
@@ -165,25 +167,40 @@
 
 .footer__hours-day {
   justify-self: start;
-  /* 8px column gap + 16px here = the 24px gutter that sets the days apart
+  /* 4px column gap + 20px here = the 24px gutter that sets the days apart
      from the times as a group. */
-  padding-inline-end: 16px;
+  padding-inline-end: 20px;
   color: #a8a69e;
 }
 
-/* Both times: digits share one advance width, so 8 PM occupies the same box
-   as 10 PM and the columns stack cleanly. Ends are flush right, which is
-   what puts the single- and double-digit hours on a shared edge. */
-.footer__hours-open,
-.footer__hours-close {
+/* display: contents drops the <dd> box and lifts its two spans into the
+   grid as cells, so the markup can keep one element per time — and one
+   readable "10 AM" for a screen reader — while the parts still align. */
+.footer__hours-time {
+  display: contents;
+}
+
+/* Flush right, so the units digits stack: a single-digit 8 sits under the
+   0 of 10 rather than starting where the 1 does. */
+.footer__hours-hour {
   justify-self: end;
   color: #f4f3ef;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
 
+/* Flush left, so every AM and PM begins at one x despite A being wider. */
+.footer__hours-meridiem {
+  justify-self: start;
+  color: #f4f3ef;
+  font-weight: 500;
+}
+
 .footer__hours-dash {
   justify-self: center;
+  /* 4px column gap + 4px each side = the 8px that sets the dash off from
+     both times without widening the word space inside them. */
+  margin-inline: 4px;
   color: #a8a69e;
 }
 
