@@ -98,8 +98,14 @@
   /* The measure is capped in em of the quote's own size, not in ch of the
      list's. The quote steps down from 26px to 20px on a narrower screen, so
      a fixed cap on the container let the line run to 90 characters there
-     while measuring 68 on desktop. In em it holds at 65 at both. */
-  max-width: 22em;
+     while measuring 68 on desktop; in em the character count holds at any
+     size.
+
+     26.5em is the narrowest measure that sets all four quotes in two lines
+     rather than three — the longest runs 154 characters, so it needs about
+     79 to a line. That is past the 70 this was previously held to, which is
+     the trade for the shorter block. */
+  max-width: 26.5em;
 }
 
 .review__quote p::before {
@@ -161,9 +167,9 @@
     grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
     column-gap: 64px;
     /* This element is also the .shell, so its padding sits inside the cap
-       (box-sizing is border-box). Capping at a bare 924px left the content
-       box at 812 and the quotes 112px short. */
-    max-width: calc(924px + var(--page-pad) * 2);
+       (box-sizing is border-box) and has to be added back. 1034 is what the
+       quotes need to set in two lines rather than three. */
+    max-width: calc(1034px + var(--page-pad) * 2);
     margin-inline: auto;
   }
 
