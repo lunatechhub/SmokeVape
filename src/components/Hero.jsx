@@ -15,7 +15,7 @@ function Hero() {
 
   return (
     <section className="hero" id="top">
-      <div className="hero__inner">
+      <div className="hero__inner shell">
         <div className="hero__copy reveal reveal--hero">
           <p className="eyebrow">{hero.eyebrow}</p>
           <h1 className="hero__headline">{hero.headline}</h1>

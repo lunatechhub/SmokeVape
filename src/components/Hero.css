@@ -3,11 +3,9 @@
   padding-block: clamp(24px, 2.6vw, 38px) var(--section-y-loose);
 }
 
-/* Not .shell. The grid runs the full width of the viewport and only its left
-   edge is inset to the container, so the media column can finish flush
-   against the right edge without a negative margin — and without 100vw,
-   which counts the scrollbar and is the usual cause of a stray horizontal
-   scroll on a bleeding element. */
+/* The same .shell as every other section — no negative margin, no w-screen,
+   no 100vw. The photo's right edge lands on the container line, which is the
+   same x as the navbar's phone number and the last footer column. */
 .hero__inner {
   display: grid;
   gap: var(--space-5);
@@ -19,7 +17,6 @@
   align-items: flex-start;
   /* Spacing comes from each child's own step, not one shared gap. */
   gap: 0;
-  padding-inline: var(--page-pad);
 }
 
 .hero__copy .eyebrow {
@@ -127,15 +124,8 @@
 
 /* --- Media ---------------------------------------------------------------- */
 
-/* Below lg the photo sits under the text and runs the full width of the
-   viewport: no side margin, no radius. .hero__inner carries no horizontal
-   padding, so this is simply the column's natural width. */
 .hero__media {
   display: flex;
-}
-
-.hero__image {
-  border-radius: 0;
 }
 
 /* The shared .media entrance settles from scale(1.04). On a photo that is
@@ -152,6 +142,8 @@
   aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: 50% 50%;
+  /* Rounded on all four now that it no longer meets the viewport edge. */
+  border-radius: var(--radius-hero);
 }
 
 /* --- Photo slot (shown only while the file is missing) -------------------- */
@@ -208,57 +200,34 @@
 }
 
 @media (min-width: 1024px) {
-  /* The grid is full-bleed and only its left edge is inset, so the left
-     column starts on the container line while the right column ends on the
-     viewport edge. max() covers both cases: below 1280px there is no gutter
-     to add, above it the gutter plus the page padding is the inset. */
   .hero__inner {
-    /* The text column is capped near the width of the text itself rather
-       than taking an equal half. At 1fr each it ran 680px wide while the
-       copy filled about 425, leaving 255px of empty ground before the photo
-       started. Capped, the photo takes the remainder and the blank closes to
-       roughly the size of the gutter. */
-    grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
-    /* Text centred against the photo; the photo overrides this to stretch. */
-    align-items: center;
-    gap: var(--space-8);
-    padding-left: max(
-      var(--page-pad),
-      calc((100% - var(--page-max)) / 2 + var(--page-pad))
-    );
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    column-gap: 48px;
   }
 
-  .hero__copy {
-    padding-inline: 0;
-  }
-
-  /* Full height of the row, flush to the right edge, and rounded on the left
-     only — the right side is a cut edge, not a card corner. */
-  /* The photograph is square (736x736). Sized to the copy column alone the
-     slot came out at 1.82:1, and object-fit: cover answered that by throwing
-     away 45% of the picture — the ceiling and the floor of the shop. The
-     The row is sized by the copy column alone, so the photo's top and bottom
-     land exactly on the eyebrow and the buttons. Stretch
-     still applies on top, so if the copy is ever the taller of the two the
-     photo follows it rather than leaving a band. */
+  /* A floor so the column can never collapse. Kept well below the copy's
+     own height so it never becomes the thing that sets the row — see the
+     note on the photo below. */
   .hero__media {
     position: relative;
-    align-self: center;
+    align-self: stretch;
+    min-height: 320px;
   }
 
-
-  /* In flow at the file's own 3:2 ratio, so the whole frame shows. The file
-     is landscape now, so filling the slot as shot costs no crop and the
-     column can still be wide. It comes out a little taller than the text,
-     which centres beside it. */
+  /* Out of flow, so the row is sized by the copy column alone and the photo
+     fills exactly that. In flow, the file's 3:2 ratio would decide the row
+     height instead — height:100% has no definite container to resolve
+     against and falls back to intrinsic — and the photo would finish taller
+     than the text beside it. */
   .hero__image,
   .hero__placeholder {
-    position: static;
-    aspect-ratio: 3 / 2;
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
     width: 100%;
-    height: auto;
-    border-start-start-radius: var(--radius-lg);
-    border-end-start-radius: var(--radius-lg);
+    height: 100%;
+    border-radius: var(--radius-hero);
   }
 }
 

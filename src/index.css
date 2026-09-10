@@ -75,6 +75,9 @@
   --radius: 3px;
   --radius-lg: 4px;
   --radius-image: 2px;
+  /* The hero photo only. It sits inside the container rather than meeting
+     the viewport edge, so it carries a real corner. */
+  --radius-hero: 16px;
   --radius-pill: 999px;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-lifted: 0 6px 24px rgba(28, 28, 26, 0.06);
