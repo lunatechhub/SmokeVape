@@ -149,8 +149,7 @@
 
 .hero__image {
   width: 100%;
-  /* Square, matching the file, so a phone shows the whole photo too. */
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   object-fit: cover;
   object-position: 50% 50%;
 }
@@ -165,7 +164,7 @@
   justify-content: center;
   gap: 6px;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   padding: var(--space-4);
   border: 1px dashed #cfcdc4;
   background-color: var(--accent-soft);
@@ -201,11 +200,10 @@
   line-height: 1.5;
 }
 
-/* One slot shape at every width, matched to the file's own. */
 @media (min-width: 768px) {
   .hero__image,
   .hero__placeholder {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
   }
 }
 
@@ -237,10 +235,8 @@
   /* The photograph is square (736x736). Sized to the copy column alone the
      slot came out at 1.82:1, and object-fit: cover answered that by throwing
      away 45% of the picture — the ceiling and the floor of the shop. The
-     ::before gives the column an intrinsic height equal to its width, so the
-     slot is square like the file and nothing is cropped at all. The column
-     is narrower than a landscape slot would be — that is the price of
-     showing the whole picture from a square original. Stretch
+     The row is sized by the copy column alone, so the photo's top and bottom
+     land exactly on the eyebrow and the buttons. Stretch
      still applies on top, so if the copy is ever the taller of the two the
      photo follows it rather than leaving a band. */
   .hero__media {
@@ -248,11 +244,6 @@
     align-self: stretch;
   }
 
-  .hero__media::before {
-    content: '';
-    display: block;
-    padding-top: 100%;
-  }
 
   /* A definite height, not height:100%. The media column's height is set by
      this row, so a percentage here has nothing to resolve against and the
