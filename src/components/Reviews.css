@@ -101,11 +101,10 @@
      while measuring 68 on desktop; in em the character count holds at any
      size.
 
-     26.5em is the narrowest measure that sets all four quotes in two lines
-     rather than three — the longest runs 154 characters, so it needs about
-     79 to a line. That is past the 70 this was previously held to, which is
-     the trade for the shorter block. */
-  max-width: 26.5em;
+     No cap now. The quotes fill their column so the block reaches the
+     container's right edge instead of stopping short and showing ground
+     beside it. That makes for a long line — see the note in the section
+     rule — but it is what filling the row costs. */
 }
 
 .review__quote p::before {
@@ -149,28 +148,12 @@
     padding-block: 56px;
   }
 
-  /* Both columns are sized to what is actually in them — the score block is
-     about 280px of content, the quotes about 580px of measure — and the
-     block is centred on the band rather than stretched across it.
-
-     Stretching either column only moves the slack somewhere visible: give
-     it to the score column and a 400px hole opens in the middle, give it to
-     the quotes and the same hole opens on the right. The two blocks cannot
-     fill 1328px without either a 105-character line or a score block padded
-     out to three times its content. A narrower centred column on a
-     full-width band is the honest shape for this section. */
+  /* Full container width, same as every other section: the block starts on
+     the page's left edge and the quotes finish on its right. The score keeps
+     its own 280px and the quotes take the rest of the row. */
   .reviews__layout {
-    /* 1fr on the quotes, not a fixed max: a definite max-track sizes to its
-       content, which left the column 112px short of the row and the measure
-       at 54 characters. 1fr fills the remainder and the quote's own em cap
-       still holds the line to 65. */
     grid-template-columns: minmax(0, 280px) minmax(0, 1fr);
     column-gap: 64px;
-    /* This element is also the .shell, so its padding sits inside the cap
-       (box-sizing is border-box) and has to be added back. 1034 is what the
-       quotes need to set in two lines rather than three. */
-    max-width: calc(1034px + var(--page-pad) * 2);
-    margin-inline: auto;
   }
 
   /* Sticky rather than stretched: the block holds its place while the quotes
