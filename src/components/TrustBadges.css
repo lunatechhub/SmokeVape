@@ -1,32 +1,71 @@
+/* A supporting band, not a feature section: a hairline, then the row. */
 .trust {
   background-color: var(--bg);
-  padding-block: var(--section-y-tight);
+  padding-block: 48px;
+  border-top: 1px solid var(--line);
 }
 
-/* A hairline that stops short of the container, not a full-width border. */
-.trust .shell::before {
-  content: '';
-  display: block;
-  width: min(180px, 34%);
-  height: 1px;
-  margin-bottom: var(--space-3);
-  background-color: var(--line);
+/* items-start so a column is only as tall as its own content and never
+   stretches to match its neighbours. */
+.trust__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 40px;
 }
 
-/* One run of text. It wraps across two or three lines on a narrow screen —
-   that is still running text, not a grid of cards. */
-.trust__line {
-  max-width: 92ch;
+/* No card, no border, no shadow, no centring — every column sits flush to
+   its own track's left edge. */
+.trust__item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.trust__icon {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 16px;
   color: var(--ink-muted);
-  font-size: 0.875rem;
-  line-height: 1.7;
 }
 
 .trust__title {
+  margin-bottom: 8px;
   color: var(--ink);
-  font-weight: 500;
+  font-size: 1rem;
 }
 
-.trust__sep {
-  color: var(--line);
+/* The numeral in "21+ Verified" only. Sans with lining figures, sized and
+   spaced to sit with the serif around it rather than beside it. */
+.trust__figure {
+  font-family: var(--font-sans);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: 'lnum' 1;
+  font-size: 0.9375em;
+  letter-spacing: 0;
+}
+
+/* Last item in the column: the gap below is the section's padding. */
+.trust__text {
+  max-width: 30ch;
+  color: var(--ink-muted);
+  font-size: 0.875rem;
+  line-height: 1.625;
+}
+
+@media (min-width: 640px) {
+  .trust__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .trust {
+    padding-block: 64px;
+  }
+
+  .trust__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
