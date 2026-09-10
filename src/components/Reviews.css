@@ -22,7 +22,9 @@
   margin-bottom: 12px;
 }
 
+/* Tabular figures so the digits do not jitter while the score counts up. */
 .reviews__rating {
+  font-variant-numeric: tabular-nums;
   margin-bottom: 8px;
   font-size: clamp(3.25rem, 7vw, 5rem);
   line-height: 0.82;

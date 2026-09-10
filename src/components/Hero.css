@@ -213,10 +213,12 @@
      viewport edge. max() covers both cases: below 1280px there is no gutter
      to add, above it the gutter plus the page padding is the inset. */
   .hero__inner {
-    /* The photo column is sized so a square slot stays a sensible height:
-       at 1536 it comes to about 517px, which keeps the whole hero inside a
-       674px window. The text column takes whatever is left. */
-    grid-template-columns: minmax(0, 1fr) clamp(380px, 34vw, 560px);
+    /* The text column is capped near the width of the text itself rather
+       than taking an equal half. At 1fr each it ran 680px wide while the
+       copy filled about 425, leaving 255px of empty ground before the photo
+       started. Capped, the photo takes the remainder and the blank closes to
+       roughly the size of the gutter. */
+    grid-template-columns: minmax(0, 500px) minmax(0, 1fr);
     /* Text centred against the photo; the photo overrides this to stretch. */
     align-items: center;
     gap: var(--space-8);
