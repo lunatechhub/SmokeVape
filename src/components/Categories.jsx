@@ -6,7 +6,7 @@ function Categories() {
   return (
     <section className="categories section" aria-labelledby="categories-heading">
       <div className="shell">
-        <div className="categories__head reveal">
+        <div className="categories__head">
           <p className="eyebrow">What we carry</p>
           <h2 id="categories-heading" className="categories__heading">
             Three shelves, kept full.
@@ -15,7 +15,7 @@ function Categories() {
 
         <ul className="categories__grid">
           {categories.map((category, index) => (
-            <li className="category-card reveal" key={category.id} style={{ '--i': index }}>
+            <li className="category-card" key={category.id} style={{ '--i': index }}>
               <div className="category-card__media media-frame">
                 <Media className="category-card__image" image={category.image} loading="lazy" />
               </div>

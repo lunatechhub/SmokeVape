@@ -49,6 +49,10 @@
      gap between two stacked sections is twice this. Keep it modest.
      --block-gap is the space from a section heading to its content. */
   --section-y: clamp(30px, 3.2vw, 48px);
+  /* Sections do not all breathe the same. These are the steps they pick
+     from, so no two neighbours share a vertical rhythm. */
+  --section-y-tight: clamp(22px, 2.2vw, 32px);
+  --section-y-loose: clamp(44px, 5vw, 76px);
   --block-gap: clamp(13px, 1.6vw, 20px);
   --stack-gap: clamp(15px, 1.8vw, 23px);
 
@@ -61,11 +65,30 @@
   --nav-h: 80px;
 
   /* Radius + elevation */
-  --radius: 12px;
-  --radius-lg: 20px;
+  /* Radii are deliberately not one value. Photographs and cards are cut
+     square-ish; only the controls stay fully round. A single rounded-xl on
+     every surface is the giveaway. */
+  --radius: 3px;
+  --radius-lg: 4px;
+  --radius-image: 2px;
   --radius-pill: 999px;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-lifted: 0 6px 24px rgba(28, 28, 26, 0.06);
+}
+
+/* --- Paper grain ---------------------------------------------------------- */
+
+/* Flat #fafaf8 is a screen artifact; real stock has tooth. One fixed layer of
+   fractal noise sits over the whole page at 3.5% so it never tiles visibly on
+   scroll. It is inert to the pointer and hidden from assistive tech. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
 }
 
 /* --- Reset ---------------------------------------------------------------- */
@@ -157,12 +180,16 @@ table {
 
 /* --- Base typography ------------------------------------------------------ */
 
+/* 1.05 sat descenders on the edge of the line box in this serif, which
+   clipped them wherever a heading has an overflow-hidden ancestor (the
+   product and category cards both do, to clip their photo). 1.12 gives the
+   tail of a p, g or y room without touching the face, size or weight. */
 h1,
 h2,
 h3 {
   font-family: var(--font-serif);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: 1.12;
   letter-spacing: -0.02em;
 }
 
@@ -200,6 +227,24 @@ h3 {
   body {
     padding-bottom: 56px;
   }
+}
+
+/* A divider that stops short of the container rather than running the full
+   width — the mark of a rule someone placed rather than a border that came
+   free with the box. */
+.hairline {
+  height: 1px;
+  border: 0;
+  margin: 0;
+  background-color: var(--line);
+}
+
+.hairline--short {
+  width: min(180px, 34%);
+}
+
+.hairline--inset {
+  margin-inline: clamp(24px, 8vw, 120px) 0;
 }
 
 /* --- Text utilities ------------------------------------------------------- */
@@ -316,11 +361,19 @@ h3 {
 
 /* --- Scroll reveal (IntersectionObserver adds .is-visible) ----------------- */
 
+/* Only four things on the page move: the hero, the marquee, the product grid
+   and the reviews score. Categories, the trust line, the visit block, the
+   footer and the navbar are all static on purpose — a fade-up on every
+   section in turn is itself the tell, and the restraint is what makes the
+   four that do move read as chosen.
+
+   Travel stays short (12-14px) and durations differ per element rather than
+   sharing one number. */
 .reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 620ms cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 620ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform: translateY(14px);
+  transition: opacity 520ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 520ms cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .reveal.is-visible {
@@ -328,10 +381,26 @@ h3 {
   transform: none;
 }
 
-/* Grid children reveal in sequence rather than all at once. The index is set
-   as --i on the element; the cap keeps a long grid from crawling. */
+/* The hero is the only element with an overshoot, and the only one that
+   runs the long end of the 400-700ms range. */
+.reveal--hero {
+  transform: translateY(12px);
+  transition-duration: 700ms;
+  transition-timing-function: cubic-bezier(0.22, 1.12, 0.36, 1);
+}
+
+.reveal--hero-late {
+  transition-delay: 110ms;
+}
+
+.reveal--brisk {
+  transition-duration: 420ms;
+}
+
+/* Grid children reveal in sequence rather than all at once. 40ms apart, and
+   capped at six steps so the last card is never noticeably late. */
 .reveal[style*='--i'] {
-  transition-delay: calc(min(var(--i, 0), 7) * 70ms);
+  transition-delay: calc(min(var(--i, 0), 6) * 40ms);
 }
 
 /* --- Photo transitions ---------------------------------------------------- */
@@ -371,6 +440,9 @@ h3 {
   }
 
   .reveal,
+  .reveal--hero,
+  .reveal--hero-late,
+  .reveal--brisk,
   .reveal.is-visible {
     opacity: 1;
     transform: none;

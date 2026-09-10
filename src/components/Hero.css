@@ -1,32 +1,45 @@
 .hero {
-  display: flex;
-  align-items: center;
-  background: linear-gradient(180deg, var(--bg) 0%, #fdfdfc 55%, var(--surface) 100%);
-  padding-block: clamp(24px, 2.6vw, 38px) clamp(28px, 3vw, 44px);
+  background-color: var(--bg);
+  padding-block: clamp(24px, 2.6vw, 38px) var(--section-y-loose);
 }
 
+/* Not .shell. The grid runs the full width of the viewport and only its left
+   edge is inset to the container, so the media column can finish flush
+   against the right edge without a negative margin — and without 100vw,
+   which counts the scrollbar and is the usual cause of a stray horizontal
+   scroll on a bleeding element. */
 .hero__inner {
   display: grid;
-  gap: clamp(26px, 3vw, 48px);
-  align-items: center;
+  gap: var(--space-5);
 }
 
 .hero__copy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--space-3);
+  /* Spacing comes from each child's own step, not one shared gap. */
+  gap: 0;
+  padding-inline: var(--page-pad);
+}
+
+.hero__copy .eyebrow {
+  margin-bottom: var(--space-5);
 }
 
 .hero__headline {
-  margin-top: 2px;
   max-width: 19ch;
   font-size: clamp(2.25rem, 4.4vw, 3.5rem);
+  /* This serif drops well below the baseline; 1.05 sat the descender of the
+     "p" in "shop." on the very edge of the line box. */
+  line-height: 1.12;
+  padding-bottom: 4px;
+  margin-bottom: var(--space-3);
 }
 
 .hero__subtext {
-  max-width: 46ch;
+  max-width: 28rem;
   font-size: clamp(1rem, 1.2vw, 1.0625rem);
+  margin-bottom: 28px;
 }
 
 /* --- Status + address line ------------------------------------------------ */
@@ -36,6 +49,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
+  margin-bottom: var(--space-4);
   color: var(--ink-muted);
   font-size: 0.9375rem;
 }
@@ -103,17 +117,34 @@
 
 /* --- Actions -------------------------------------------------------------- */
 
+/* Last item in the column: the gap to whatever follows is the section's
+   padding, never a margin of its own. */
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
-  margin-top: var(--space-1);
 }
 
 /* --- Media ---------------------------------------------------------------- */
 
+/* Below lg the photo sits under the text and runs the full width of the
+   viewport: no side margin, no radius. .hero__inner carries no horizontal
+   padding, so this is simply the column's natural width. */
 .hero__media {
-  order: -1;
+  display: flex;
+}
+
+.hero__image {
+  border-radius: 0;
+}
+
+/* The shared .media entrance settles from scale(1.04). On a photo that is
+   already flush to the viewport edge, that 4% overhangs the edge by half its
+   width — 13px at 1536 — and puts a horizontal scrollbar on the page for as
+   long as the file takes to decode. This one fades without the scale; every
+   other photo on the site keeps both halves of the transition. */
+.hero__image.media {
+  transform: none;
 }
 
 .hero__image {
@@ -121,13 +152,12 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: 50% 50%;
-  border-radius: var(--radius-lg);
-  box-shadow: 0 18px 44px rgba(28, 28, 26, 0.14), 0 2px 6px rgba(28, 28, 26, 0.06);
 }
 
 /* --- Photo slot (shown only while the file is missing) -------------------- */
 
 .hero__placeholder {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -137,7 +167,6 @@
   aspect-ratio: 16 / 9;
   padding: var(--space-4);
   border: 1px dashed #cfcdc4;
-  border-radius: var(--radius-lg);
   background-color: var(--accent-soft);
   text-align: center;
 }
@@ -179,25 +208,33 @@
 }
 
 @media (min-width: 1024px) {
-  /* Capped, not full-viewport — the marquee and the top of the first product
-     row need to be reachable without a long scroll. */
-  .hero {
-    min-height: 62vh;
-  }
-
+  /* The grid is full-bleed and only its left edge is inset, so the left
+     column starts on the container line while the right column ends on the
+     viewport edge. max() covers both cases: below 1280px there is no gutter
+     to add, above it the gutter plus the page padding is the inset. */
   .hero__inner {
     grid-template-columns: 1fr 1.15fr;
-    align-items: stretch;
+    /* Text centred against the photo; the photo overrides this to stretch. */
+    align-items: center;
+    gap: var(--space-10);
+    padding-left: max(
+      var(--page-pad),
+      calc((100% - var(--page-max)) / 2 + var(--page-pad))
+    );
   }
 
   .hero__copy {
-    justify-content: center;
+    padding-inline: 0;
   }
 
+  /* Full height of the row, flush to the right edge, and rounded on the left
+     only — the right side is a cut edge, not a card corner. */
+  /* No min-height. A floor here would make the photo taller than the copy on
+     a tall viewport and reopen a band of ground above and below it; the row
+     is sized by the text column alone so the two edges match exactly. */
   .hero__media {
-    order: 0;
-    display: flex;
-    min-height: 0;
+    position: relative;
+    align-self: stretch;
   }
 
   /* A definite height, not height:100%. The media column's height is set by
@@ -205,10 +242,20 @@
      image falls back to its own (portrait) intrinsic ratio — which is what
      blew the hero past its cap. Fixed height + cover keeps the photo the
      tallest thing on screen while the section stays under 70vh. */
+  /* Taken out of flow. Left in flow, the photo's own 1:1 ratio decides the
+     row height — height:100% has no definite container to resolve against,
+     so it falls back to intrinsic and the image ends up taller than the text
+     beside it. Absolute means the row is sized by the copy column alone and
+     the photo fills whatever that comes to, top and bottom exactly. */
   .hero__image,
   .hero__placeholder {
+    position: absolute;
+    inset: 0;
     aspect-ratio: auto;
-    height: clamp(330px, 46vh, 460px);
+    width: 100%;
+    height: 100%;
+    border-start-start-radius: var(--radius-lg);
+    border-end-start-radius: var(--radius-lg);
   }
 }
 

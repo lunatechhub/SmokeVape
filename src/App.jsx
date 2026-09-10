@@ -44,9 +44,12 @@ function App() {
       <Navbar />
 
       <main id="main">
+        {/* Backgrounds run light, light, dark, light, accent-soft. The dark
+            marquee lands after the categories rather than straight under the
+            hero, so the page does not alternate on a metronome. */}
         <Hero />
-        <BrandMarquee />
         <Categories />
+        <BrandMarquee />
         <ProductGrid />
         <Reviews />
         <TrustBadges />

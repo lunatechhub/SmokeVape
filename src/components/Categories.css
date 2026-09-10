@@ -3,6 +3,7 @@
    one empty band. The seam is shared instead: a quarter here, three quarters
    on .products, for a single clean gap. */
 .categories {
+  padding-top: var(--section-y-tight);
   padding-bottom: calc(var(--section-y) * 0.25);
 }
 
@@ -36,14 +37,11 @@
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background-color: var(--surface);
-  box-shadow: var(--shadow);
-  transition: border-color 240ms ease, transform 240ms ease, box-shadow 240ms ease;
+  transition: border-color 240ms ease;
 }
 
 .category-card:hover {
-  border-color: #d9d6cd;
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lifted);
+  border-color: #cfcdc4;
 }
 
 .category-card__media {
@@ -76,7 +74,7 @@
 }
 
 .category-card__stocked {
-  color: var(--accent-dark);
+  color: var(--ink-muted);
   font-size: 0.875rem;
 }
 
@@ -87,13 +85,35 @@
 }
 
 @media (min-width: 768px) {
+  /* align-items: start, so a card is only as tall as its own contents rather
+     than being stretched to match its neighbours. */
   .categories__grid {
     grid-template-columns: repeat(3, 1fr);
+    align-items: start;
     gap: var(--space-2);
   }
 
+  /* Three different crops, so the three cards land at visibly different
+     heights instead of reading as one ruled band. */
   .category-card__image {
     aspect-ratio: 3 / 2;
+  }
+
+  .category-card:nth-child(1) .category-card__image {
+    aspect-ratio: 4 / 5;
+  }
+
+  .category-card:nth-child(2) .category-card__image {
+    aspect-ratio: 1 / 1;
+  }
+
+  .category-card:nth-child(3) .category-card__image {
+    aspect-ratio: 5 / 4;
+  }
+
+  /* The middle card drops a little below the line the other two sit on. */
+  .category-card:nth-child(2) {
+    margin-top: clamp(20px, 3vw, 44px);
   }
 }
 
@@ -103,8 +123,4 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .category-card:hover {
-    transform: none;
-  }
-}
+

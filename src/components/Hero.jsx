@@ -15,8 +15,8 @@ function Hero() {
 
   return (
     <section className="hero" id="top">
-      <div className="hero__inner shell">
-        <div className="hero__copy">
+      <div className="hero__inner">
+        <div className="hero__copy reveal reveal--hero">
           <p className="eyebrow">{hero.eyebrow}</p>
           <h1 className="hero__headline">{hero.headline}</h1>
           <p className="lede hero__subtext">{hero.subtext}</p>
@@ -57,7 +57,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="hero__media">
+        <div className="hero__media reveal reveal--hero reveal--hero-late">
           {/* Until the photo exists at the path below, a labelled slot shows
               exactly which file to drop in. It disappears on its own once the
               image loads. */}
