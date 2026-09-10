@@ -120,9 +120,9 @@ function Footer() {
           {/* Fourth column. Three columns left the grid ending well short of
               the container; this one both closes that gap and gives the
               block the brand presence it had nowhere else. It runs without
-              a heading, so the CSS drops it by one label box plus the 24px
-              under it — the wordmark then starts on the same row as the
-              other columns' first items rather than on their heading row. */}
+              a heading and takes no offset for one either, so the wordmark
+              starts level with the other columns' headings and all four
+              blocks share a top edge. */}
           <div className="footer__column footer__column--brand">
             <p className="footer__brand-name">{footerBrand.name}</p>
             <p className="footer__brand-line">{footerBrand.line}</p>

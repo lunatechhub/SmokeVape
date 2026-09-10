@@ -79,7 +79,11 @@
 .footer__columns {
   display: grid;
   grid-template-columns: 1fr;
-  align-items: start;
+  /* Baseline, not start. Three columns open on a 12px label box and the
+     fourth opens on a 22.75px line of body text; aligning their box tops
+     left the wordmark sitting 5.6px below the headings beside it. Aligning
+     first baselines puts all four opening lines on one line instead. */
+  align-items: baseline;
   column-gap: 40px;
   row-gap: 40px;
   margin-top: var(--band);
@@ -107,6 +111,13 @@
   color: #f4f3ef;
   font-family: var(--font-serif);
   letter-spacing: -0.01em;
+  /* Stands in for a heading, so it takes the label's box rather than the
+     column's line box: 0.75rem is the label's own size, and matching it
+     exactly is what puts the line beneath the wordmark on the same row as
+     the other columns' first items. Its own 0.875rem text overflows that
+     box harmlessly; only the box drives the rhythm below. */
+  line-height: 0.75rem;
+  margin-bottom: 8px;
 }
 
 .footer__brand-line,
@@ -268,14 +279,6 @@
 @media (min-width: 640px) {
   .footer__columns {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  /* No heading of its own, so it buys back exactly what one would occupy:
-     the label box (0.75rem at line-height 1) plus the 24px under it. The
-     wordmark then lands on the other columns' first-item row. Stacked at
-     one column there is nothing to align to, so the offset stays off. */
-  .footer__column--brand {
-    margin-top: calc(0.75rem + 24px);
   }
 }
 
