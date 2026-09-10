@@ -201,7 +201,9 @@
 
 @media (min-width: 1024px) {
   .hero__inner {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* The photo takes the larger share. The text column still clears the
+       widest thing in it — the subtext at 28rem — so nothing rewraps. */
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
     align-items: stretch;
     column-gap: 48px;
   }
