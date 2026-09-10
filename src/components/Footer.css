@@ -111,13 +111,23 @@
   color: #f4f3ef;
   font-family: var(--font-serif);
   letter-spacing: -0.01em;
+  font-size: 1.25rem;
+  /* Instrument Serif ships one weight (400) here, so this is a synthesised
+     bold. It holds together at this size; much larger and it would start
+     to smear. */
+  font-weight: 600;
   /* Stands in for a heading, so it takes the label's box rather than the
-     column's line box: 0.75rem is the label's own size, and matching it
-     exactly is what puts the line beneath the wordmark on the same row as
-     the other columns' first items. Its own 0.875rem text overflows that
-     box harmlessly; only the box drives the rhythm below. */
+     column's line box: 0.75rem is the label's own size. The text overflows
+     that box harmlessly — only the box drives the rhythm below it.
+
+     The grid aligns first baselines, so the wordmark's own opening line
+     stays level whatever size it is. What the size does move is how far
+     its baseline sits above the box bottom, and that is what the margin
+     absorbs: the label's 8px plus the 2.4px this 1.25rem face adds. Both
+     rows measure exactly level at these values — re-derive the 10.4px if
+     the size changes. */
   line-height: 0.75rem;
-  margin-bottom: 8px;
+  margin-bottom: 10.4px;
 }
 
 .footer__brand-line,
