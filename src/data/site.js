@@ -88,11 +88,16 @@ export const lifestyle = {
     width: 1134,
     height: 2016,
   },
+  /* Landscape crop of hero-interior.jpg. The square original forced the hero
+     to choose between cropping half the picture away and leaving a band of
+     empty ground beside the text; at 3:2 it fills the slot as shot. The crop
+     also drops the bottom of the frame, which carried a generated-image
+     watermark. */
   neonInterior: {
-    src: '/images/lifestyle/hero-interior.jpg',
+    src: '/images/lifestyle/hero-interior-wide.jpg',
     alt: 'Lit display cases and back wall of devices inside Smoke & Vape Co.',
     width: 736,
-    height: 736,
+    height: 491,
   },
   storefront: {
     src: '/images/lifestyle/storefront.jpg',

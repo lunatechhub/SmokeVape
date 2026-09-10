@@ -149,7 +149,7 @@
 
 .hero__image {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   object-fit: cover;
   object-position: 50% 50%;
 }
@@ -164,7 +164,7 @@
   justify-content: center;
   gap: 6px;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 2;
   padding: var(--space-4);
   border: 1px dashed #cfcdc4;
   background-color: var(--accent-soft);
@@ -203,7 +203,7 @@
 @media (min-width: 768px) {
   .hero__image,
   .hero__placeholder {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
   }
 }
 
@@ -243,27 +243,20 @@
      photo follows it rather than leaving a band. */
   .hero__media {
     position: relative;
-    align-self: stretch;
+    align-self: center;
   }
 
 
-  /* A definite height, not height:100%. The media column's height is set by
-     this row, so a percentage here has nothing to resolve against and the
-     image falls back to its own (portrait) intrinsic ratio — which is what
-     blew the hero past its cap. Fixed height + cover keeps the photo the
-     tallest thing on screen while the section stays under 70vh. */
-  /* Taken out of flow. Left in flow, the photo's own 1:1 ratio decides the
-     row height — height:100% has no definite container to resolve against,
-     so it falls back to intrinsic and the image ends up taller than the text
-     beside it. Absolute means the row is sized by the copy column alone and
-     the photo fills whatever that comes to, top and bottom exactly. */
+  /* In flow at the file's own 3:2 ratio, so the whole frame shows. The file
+     is landscape now, so filling the slot as shot costs no crop and the
+     column can still be wide. It comes out a little taller than the text,
+     which centres beside it. */
   .hero__image,
   .hero__placeholder {
-    position: absolute;
-    inset: 0;
-    aspect-ratio: auto;
+    position: static;
+    aspect-ratio: 3 / 2;
     width: 100%;
-    height: 100%;
+    height: auto;
     border-start-start-radius: var(--radius-lg);
     border-end-start-radius: var(--radius-lg);
   }

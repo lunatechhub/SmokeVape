@@ -1,11 +1,11 @@
 .reviews {
   background-color: var(--accent-soft);
-  padding-block: 56px;
+  padding-block: 40px;
 }
 
 .reviews__layout {
   display: grid;
-  gap: 48px;
+  gap: 40px;
 }
 
 /* --- Left column: score + the ask ----------------------------------------- */
@@ -39,7 +39,7 @@
 }
 
 .reviews__count {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   color: var(--ink-muted);
   font-size: 0.9375rem;
 }
@@ -51,7 +51,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
-  padding-top: 32px;
+  padding-top: 24px;
   border-top: 1px solid #dfe6dd;
   width: 100%;
 }
@@ -73,7 +73,7 @@
 .reviews__list {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 28px;
   max-width: 58ch;
 }
 
@@ -141,12 +141,12 @@
 
 @media (min-width: 1024px) {
   .reviews {
-    padding-block: 80px;
+    padding-block: 56px;
   }
 
   .reviews__layout {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
-    column-gap: 64px;
+    column-gap: 56px;
   }
 
   /* Sticky rather than stretched: the block holds its place while the quotes
