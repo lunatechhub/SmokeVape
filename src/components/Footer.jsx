@@ -119,12 +119,11 @@ function Footer() {
 
           {/* Fourth column. Three columns left the grid ending well short of
               the container; this one both closes that gap and gives the
-              block the brand presence it had nowhere else. It carries the
-              same heading as its neighbours, which is what puts its items
-              on the shared rows — structure rather than a measured offset,
-              so it stays aligned if the label ever changes size. */}
+              block the brand presence it had nowhere else. It runs without
+              a heading, so the CSS drops it by one label box plus the 24px
+              under it — the wordmark then starts on the same row as the
+              other columns' first items rather than on their heading row. */}
           <div className="footer__column footer__column--brand">
-            <h3 className="footer__label">About</h3>
             <p className="footer__brand-name">{footerBrand.name}</p>
             <p className="footer__brand-line">{footerBrand.line}</p>
             <p className="footer__brand-age">{footerBrand.age}</p>

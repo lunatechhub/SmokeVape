@@ -269,6 +269,14 @@
   .footer__columns {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* No heading of its own, so it buys back exactly what one would occupy:
+     the label box (0.75rem at line-height 1) plus the 24px under it. The
+     wordmark then lands on the other columns' first-item row. Stacked at
+     one column there is nothing to align to, so the offset stays off. */
+  .footer__column--brand {
+    margin-top: calc(0.75rem + 24px);
+  }
 }
 
 @media (min-width: 900px) {
@@ -288,8 +296,20 @@
    is the first width where all four columns fit without compressing. Below
    this the 640px rule keeps two roomy columns. */
 @media (min-width: 1200px) {
+  /* Equal 1fr tracks do NOT give equal-looking gaps: Follow's links run
+     66px wide against Contact's 195px, so identical tracks left visible
+     gaps of 107px, 96px and 236px. Sizing each track to its content and
+     letting space-between share out the slack puts the same gap between
+     every pair, which is what the eye actually reads. */
   .footer__columns {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, max-content);
+    justify-content: space-between;
+  }
+
+  /* Without a cap the tagline would straighten onto one line and take the
+     column to 374px, eating the slack the gaps are shared from. */
+  .footer__brand-line {
+    max-width: 34ch;
   }
 }
 
