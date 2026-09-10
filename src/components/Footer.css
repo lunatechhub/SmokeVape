@@ -8,6 +8,15 @@
      ground so the hover state is actually readable. */
   --footer-accent: #9dbaa2;
 
+  /* One vertical scale for all four detail columns. --footer-line is a
+     length, not a ratio, so every line box in the block is exactly this
+     tall whatever size the text inside it is — that is what stops the
+     columns drifting apart by a pixel or two. --footer-step is the gap
+     between items; heading-to-first-item is --footer-step plus the 8px
+     under the label, i.e. 24px. */
+  --footer-line: calc(0.875rem * 1.625);
+  --footer-step: 16px;
+
   padding-block: var(--band) 0;
   background-color: var(--ink);
   color: #f4f3ef;
@@ -71,8 +80,8 @@
   display: grid;
   grid-template-columns: 1fr;
   align-items: start;
-  column-gap: 48px;
-  row-gap: 32px;
+  column-gap: 40px;
+  row-gap: 40px;
   margin-top: var(--band);
   padding-top: 36px;
   padding-bottom: 36px;
@@ -85,12 +94,31 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--footer-step);
+  font-size: 0.875rem;
+  line-height: var(--footer-line);
   text-align: left;
+}
+
+.footer__brand-name {
+  color: #f4f3ef;
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+.footer__brand-line {
+  color: #a8a69e;
+}
+
+.footer__brand-age {
+  color: #a8a69e;
+  font-size: 0.8125rem;
 }
 
 .footer__label {
   margin-bottom: 8px;
+  line-height: 1;
   color: #a8a69e;
   font-family: var(--font-sans);
   font-size: 0.75rem;
@@ -101,12 +129,13 @@
 
 /* Two lines of one item — they sit on their own line-height, not on the
    column gap, so the address reads as a block rather than as two entries. */
+/* One item, not two. The two lines are set on the shared line-height, so
+   they read as a single block — deliberately tighter than the 16px between
+   items, which is what keeps the address from looking like two entries. */
 .footer__address {
   display: flex;
   flex-direction: column;
   font-style: normal;
-  font-size: 0.875rem;
-  line-height: 1.55;
   color: #f4f3ef;
 }
 
@@ -127,10 +156,11 @@
   /* The tight gap is the one either side of the dash; the days get their
      wider gutter from padding on the cell itself. */
   column-gap: 8px;
-  row-gap: 12px;
+  row-gap: var(--footer-step);
   align-items: baseline;
-  font-size: 0.875rem;
-  line-height: 1.55;
+  /* A time broken across two lines ("10" / "AM") destroys the column this
+     grid exists to create, so the cells never wrap. */
+  white-space: nowrap;
 }
 
 .footer__hours-day {
@@ -162,7 +192,7 @@
 .footer__social {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--footer-step);
 }
 
 /* --- Links ---------------------------------------------------------------- */
@@ -173,7 +203,8 @@
   padding-block: 4px;
   margin-block: -4px;
   color: #f4f3ef;
-  font-size: 0.875rem;
+  font-size: inherit;
+  line-height: inherit;
   text-decoration: none;
   transition: color 150ms ease;
 }
@@ -223,6 +254,15 @@
   .footer__columns {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* The brand block carries no heading, so once it sits beside a column that
+     does, it buys back the space one would have taken: the label box
+     (0.75rem at line-height 1) plus the 24px under it. That lands its first
+     line on the shared first-item baseline. Stacked at one column there is
+     nothing to align to, so the offset would just read as a stray gap. */
+  .footer__column--brand {
+    margin-top: calc(0.75rem + 24px);
+  }
 }
 
 @media (min-width: 900px) {
@@ -237,9 +277,13 @@
   }
 }
 
-@media (min-width: 1024px) {
+/* Four tracks only once each one clears the hours block's 206px intrinsic
+   width. At 1024px the track computes to 196.6px and the times wrap; 1200px
+   is the first width where all four columns fit without compressing. Below
+   this the 640px rule keeps two roomy columns. */
+@media (min-width: 1200px) {
   .footer__columns {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

@@ -438,4 +438,12 @@ export const cookieNotice = {
   manage: 'Cookie preferences',
 }
 
+/* The footer's fourth column. `since` is the only claim here that is not
+   already stated elsewhere in this file — confirm the year before launch. */
+export const footerBrand = {
+  name: shop.name,
+  line: 'Colorado Springs’ neighborhood smoke shop since 2019',
+  age: '21+ only — ID required at the counter',
+}
+
 export const legalLine = '© 2026 Smoke & Vape Co. · 21+ Only'

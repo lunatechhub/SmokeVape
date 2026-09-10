@@ -5,6 +5,7 @@ import {
   addressLine2,
   cookieNotice,
   directionsUrl,
+  footerBrand,
   hours,
   legalLine,
   shop,
@@ -102,6 +103,17 @@ function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Fourth column. Three columns left the grid ending well short of
+              the container; this one both closes that gap and gives the
+              block the brand presence it had nowhere else. It carries no
+              heading, so the CSS offsets it onto the shared first-item
+              baseline instead. */}
+          <div className="footer__column footer__column--brand">
+            <p className="footer__brand-name">{footerBrand.name}</p>
+            <p className="footer__brand-line">{footerBrand.line}</p>
+            <p className="footer__brand-age">{footerBrand.age}</p>
           </div>
         </div>
 
