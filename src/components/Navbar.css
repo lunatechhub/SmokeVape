@@ -29,11 +29,16 @@
   display: inline-flex;
   align-items: baseline;
   color: var(--ink);
-  font-family: var(--font-sans);
+  /* Times New Roman by request. It is a system font, not one we load, so the
+     chain covers machines that do not ship it — Liberation Serif and Tinos
+     are the metric-compatible substitutes on Linux and Android. */
+  font-family: 'Times New Roman', Times, 'Liberation Serif', Tinos, serif;
   font-size: clamp(1.25rem, 2.4vw, 1.5rem);
   font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.03em;
+  /* Inter took -0.03em; Times is a narrower face and closes up badly at that,
+     so the tracking goes back to normal. */
+  letter-spacing: 0;
   text-decoration: none;
   white-space: nowrap;
 }
