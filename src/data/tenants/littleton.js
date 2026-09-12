@@ -206,23 +206,26 @@ export default {
        in at this same path, then correct the width and height below to the
        new file's real pixel size.
 
-       The disposable-wall interior that briefly sat here is still on disk at
-       interior.jpg (765x1020) if it is ever wanted instead. */
-    /* The 240x160 hero.jpg this used to point at is no longer in the folder,
-       so the hero was rendering the "Add photo" placeholder rather than a
-       photograph. This is the sharp 1275x1020 storefront that sits there now.
+    /* This shop's own storefront — the unit with the nail salon beside it.
+       Chosen deliberately over the sharper alternative: hero.webp is the
+       GOLDEN shop's frontage, byte-identical to lakewood/hero.webp and
+       premium-cigar/hero.webp, and its sign reads "Golden vape shop". A crisp
+       photograph of the wrong premises is worse on a real business's site than
+       a soft photograph of the right one.
 
-       Read before launch: this file is byte-identical to lakewood/hero.webp
-       and premium-cigar/hero.webp (md5 2388914b…), and the sign in it reads
-       "Golden vape shop". It is brand artwork carried by three sites at once,
-       not a photograph of the Littleton premises — the real one had the nail
-       salon beside it. Sharp and on-brand, but swap it for this shop's own
-       storefront as soon as one exists. */
+       The cost is sharpness. At 240x160 drawn roughly 723px wide this is a 3x
+       upscale and it looks it. No crop, resize or filter recovers detail that
+       was never captured — only a bigger file does.
+
+       THE FIX: drop a Littleton storefront photo of 1600x1067 or larger in at
+       this same path and correct width/height below. Nothing else changes.
+       The disposable-wall interior (interior.jpg, 765x1020) remains on disk
+       and is already the Visit-band photo. */
     hero: {
-      src: '/images/littleton/hero.webp',
-      alt: `A ${name} storefront`,
-      width: 1275,
-      height: 1020,
+      src: '/images/littleton/hero.jpg',
+      alt: `The ${name} storefront in ${location}`,
+      width: 240,
+      height: 160,
     },
     /* Shown in the Visit band beside the map, and the only place on the page
        a real photograph of the inside of this shop appears. The file is the
