@@ -6,15 +6,25 @@ shop's photos, so a site can never leak another shop's details.
 
 ## The shops
 
-Each row is one Vercel project. Fill in the last two columns as you create them.
+Each row is one Vercel project, all four pointing at this same repository.
 
-| Tenant key | Build command | Output directory | Shop name | City | Vercel project | Subdomain |
-| --- | --- | --- | --- | --- | --- | --- |
-| `lakewood` | `npm run build:lakewood` | `dist-lakewood` | Golden Vape & Smoke | Lakewood, CO | | |
-| `littleton` | `npm run build:littleton` | `dist-littleton` | Golden Vape & Smoke | Littleton, CO | | |
-| `premium-cigar` | `npm run build:premium-cigar` | `dist-premium-cigar` | Golden Vape & Smoke - Premium Cigar | Golden, CO | | |
-| `yours` | `npm run build:yours` | `dist-yours` | Yours Vape & Smoke | Centennial, CO | | |
-| `demo` | `npm run build:demo` | `dist-demo` | Smoke & Vape Co. | Colorado Springs, CO | not deployed | — |
+| Tenant key | Shop name | City | Vercel project | Live URL |
+| --- | --- | --- | --- | --- |
+| `lakewood` | Golden Vape & Smoke | Lakewood, CO | `golden-vape-lakewood` | https://golden-vape-lakewood.vercel.app |
+| `littleton` | Golden Vape & Smoke | Littleton, CO | `golden-vape-littleton` | https://golden-vape-littleton.vercel.app |
+| `premium-cigar` | Golden Vape & Smoke - Premium Cigar | Golden, CO | `golden-vape-premium-cigar` | https://golden-vape-premium-cigar.vercel.app |
+| `yours` | Yours Vape & Smoke | Centennial, CO | `yours-vape-centennial` | https://yours-vape-centennial.vercel.app |
+| `demo` | Smoke & Vape Co. | Colorado Springs, CO | none — not deployed | — |
+
+And the build settings each project carries:
+
+| Tenant key | Build command | Output directory |
+| --- | --- | --- |
+| `lakewood` | `npm run build:lakewood` | `dist-lakewood` |
+| `littleton` | `npm run build:littleton` | `dist-littleton` |
+| `premium-cigar` | `npm run build:premium-cigar` | `dist-premium-cigar` |
+| `yours` | `npm run build:yours` | `dist-yours` |
+| `demo` | `npm run build:demo` | `dist-demo` |
 
 `demo` is a sample shop, not a real business. `npm run build:all` deliberately
 skips it and builds the four real sites.
@@ -26,12 +36,37 @@ next free port.
 
 ## Vercel settings per project
 
-All five projects point at this same repository and differ only in two fields:
+The four deployed projects point at this same repository and differ only in two
+fields. Get either one wrong and the build silently produces the demo shop —
+that is exactly what happened to the two legacy projects noted below.
 
 - **Framework preset** — Vite
 - **Build command** — `npm run build:<key>`
 - **Output directory** — `dist-<key>`
 - **Install command** — default
+
+## Deployment
+
+All four projects are connected to `lunatechhub/SmokeVape` and rebuild on every
+push to `main`. Nothing else is needed to release: commit, push, and the four
+sites redeploy themselves.
+
+Two things about URLs that look like faults but are not:
+
+- **Only the clean URLs above are public.** Any URL carrying a build hash
+  (`golden-vape-lakewood-a8yrnokeu-…`) redirects to `vercel.com/sso-api` — a
+  login wall. That is the `all_except_custom_domains` SSO setting doing its job,
+  keeping preview builds private. Share the clean URLs, not the ones copied from
+  a deployment in the dashboard.
+- **There are no custom domains.** `vercel domains ls` reports zero, so the
+  Domains panel is empty by fact rather than by fault. To add one:
+  `vercel domains add <domain> <project>`, then point DNS at Vercel. A custom
+  domain is also the one URL SSO protection never blocks.
+
+Two legacy projects, `smoke-vape` and `smoke-vape-rgm5`, are also connected to
+this repo and still rebuild on every push. They have no `--mode` and no output
+directory, so both serve the demo shop. They are redundant now and worth
+disconnecting or removing.
 
 ## How a build picks its shop
 
@@ -48,9 +83,24 @@ fails.
 
 ## What is and is not committed
 
-- Ignored: `node_modules`, `dist`, `dist-*`
+- Ignored: `node_modules`, `dist`, `dist-*`, `.vercel`
 - Committed: `public/images/**` — every shop's photos ship with the repo, so a
   Vercel build needs no asset step
+- Committed: the five `.env.*` tenant files, and they need a guard
+
+`vercel link` appends a blanket `.env*` rule to `.gitignore`. That rule matches
+all five tenant files, and the Vercel CLI filters its upload through the same
+patterns — so with the rule alone, every build ships without its `VITE_TENANT`
+and dies on `No shop set for --mode <key>`. The `!.env.<key>` exceptions at the
+bottom of `.gitignore` are what prevent that. Do not remove them, and if the CLI
+ever re-appends `.env*`, make sure the exceptions still come after it: in
+gitignore the last matching rule wins.
+
+Check it with `git check-ignore -v --no-index .env.lakewood` — and read the exit
+code, not the output. `check-ignore` prints the matching rule even when that rule
+is a negation, and it skips tracked files entirely unless `--no-index` is given,
+so output alone will mislead you. Exit 1 means not ignored, which is what you
+want.
 
 ## Before launch
 
