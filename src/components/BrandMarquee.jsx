@@ -1,4 +1,4 @@
-import { brands } from '../data/site'
+import { brands } from '../data/shared'
 import './BrandMarquee.css'
 
 /* The track is rendered twice — the second copy is hidden from assistive tech

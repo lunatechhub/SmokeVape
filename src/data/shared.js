@@ -1,119 +1,16 @@
 /* ==========================================================================
-   Every word of copy on this site lives here. Edit text in this file only.
-   Single-store business: one address, one phone number, one set of hours.
-   Pricing is deliberately absent — the shop sells in store only.
+   Content every shop shares: the catalog, the brand list, the trust points,
+   navigation, and the warning and cookie copy. Nothing in this file names a
+   shop, a place, a phone number or an hour — all of that lives in
+   src/data/tenants/<key>.js and is read through `site` from src/data.
+
+   Pricing is deliberately absent — the shops sell in store only.
 
    Image paths are absolute, complete strings. Nothing in the app builds an
    image path by concatenation or by index — components read image.src and
    image.alt straight off these objects, so swapping a file is a one-line
    edit here (or a straight overwrite in public/images/).
    ========================================================================== */
-
-export const shop = {
-  name: 'Smoke & Vape Co.',
-  wordmark: ['Smoke &', 'Vape Co.'],
-  tagline: 'Colorado Springs, CO — Est. smoke & vape',
-  phone: '(719) 555-0142',
-  phoneHref: 'tel:+17195550142',
-  email: 'hello@smokeandvapeco.com',
-  address: {
-    street: '2418 N Academy Blvd',
-    city: 'Colorado Springs',
-    state: 'CO',
-    zip: '80909',
-  },
-}
-
-export const addressLine1 = shop.address.street
-export const addressLine2 = `${shop.address.city}, ${shop.address.state} ${shop.address.zip}`
-export const fullAddress = `${addressLine1}, ${addressLine2}`
-
-export const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-  `${shop.name}, ${fullAddress}`,
-)}`
-
-/* Hours are stored as minutes-from-midnight so the "open now" line can be
-   computed. A close value of 1440 rolls over to midnight (Fri/Sat close at
-   12 AM the following morning).
-
-   `open` and `close` are held apart rather than as one pre-joined string,
-   and each is split again into hour and meridiem. The footer gives all four
-   parts their own grid track: hours align on their units digit, so a
-   single-digit 8 sits under the 0 of 10, and every AM/PM starts at one x.
-   Joined strings cannot do this — tabular-nums equalises digits, not string
-   lengths, so "8 PM" ran 10px narrower than "10 PM" and "AM" is a further
-   0.95px wider than "PM". `display` is derived from the pair, keeping one
-   source of truth for anything wanting the time as a single run of text. */
-const time = (hour, meridiem) => ({ hour, meridiem, text: `${hour} ${meridiem}` })
-
-const openClose = (open, close) => ({
-  open,
-  close,
-  display: `${open.text} – ${close.text}`,
-})
-
-export const hours = [
-  {
-    id: 'mon-thu',
-    label: 'Mon – Thu',
-    days: [1, 2, 3, 4],
-    opensAt: 10 * 60,
-    closesAt: 22 * 60,
-    ...openClose(time('10', 'AM'), time('10', 'PM')),
-  },
-  {
-    id: 'fri-sat',
-    label: 'Fri – Sat',
-    days: [5, 6],
-    opensAt: 10 * 60,
-    closesAt: 24 * 60,
-    ...openClose(time('10', 'AM'), time('12', 'AM')),
-  },
-  {
-    id: 'sun',
-    label: 'Sunday',
-    days: [0],
-    opensAt: 12 * 60,
-    closesAt: 20 * 60,
-    ...openClose(time('12', 'PM'), time('8', 'PM')),
-  },
-]
-
-/* Photography — .jpg files under /images/lifestyle/. width/height are the
-   real intrinsic pixels of each file; the CSS crops them to the frame. */
-export const lifestyle = {
-  shelfWall: {
-    src: '/images/lifestyle/hero-storefront.jpg',
-    alt: 'Wall of pod systems, mods and e-liquid on lit wooden shelves inside Smoke & Vape Co.',
-    width: 1134,
-    height: 2016,
-  },
-  /* Landscape crop of hero-interior.jpg. The square original forced the hero
-     to choose between cropping half the picture away and leaving a band of
-     empty ground beside the text; at 3:2 it fills the slot as shot. The crop
-     also drops the bottom of the frame, which carried a generated-image
-     watermark. */
-  neonInterior: {
-    src: '/images/lifestyle/hero-interior-wide.jpg',
-    alt: 'Lit display cases and back wall of devices inside Smoke & Vape Co.',
-    width: 1472,
-    height: 982,
-  },
-  storefront: {
-    src: '/images/lifestyle/storefront.jpg',
-    alt: 'Smoke & Vape Co. storefront on North Academy Boulevard in Colorado Springs',
-    width: 1200,
-    height: 1200,
-  },
-}
-
-export const hero = {
-  eyebrow: shop.tagline,
-  headline: 'Colorado Springs neighborhood smoke shop.',
-  subtext:
-    'Fresh disposables, pods and juice on the shelf every week — and someone behind the counter who actually knows the difference.',
-  image: lifestyle.neonInterior,
-}
 
 export const brands = [
   'Elf Bar',
@@ -361,42 +258,6 @@ export const products = [
   },
 ]
 
-export const reviews = {
-  rating: '4.9',
-  count: 'Based on 380+ reviews on Google',
-  reviewUrl: 'https://g.page/r/PLACEHOLDER-REVIEW-LINK/review',
-  items: [
-    {
-      id: 'marcus-t',
-      name: 'Marcus T.',
-      stars: 5,
-      quote:
-        'Asked for something close to my old bar and the guy walked me through three options without upselling me. Out the door in five minutes with the right one.',
-    },
-    {
-      id: 'danielle-r',
-      name: 'Danielle R.',
-      stars: 5,
-      quote:
-        'Only shop on Academy that actually has the Pulse X when they say they do. I call ahead, they set it aside, I grab it on the way home.',
-    },
-    {
-      id: 'aaron-k',
-      name: 'Aaron K.',
-      stars: 5,
-      quote:
-        'Been coming here since I moved to the Springs. Clean counter, no pressure, and they always know which juice just landed.',
-    },
-    {
-      id: 'priya-s',
-      name: 'Priya S.',
-      stars: 5,
-      quote:
-        'Stopped in on a Sunday afternoon expecting a picked-over shelf and found exactly what I wanted. In and out in under two minutes.',
-    },
-  ],
-}
-
 export const trustBadges = [
   {
     id: 'authorized',
@@ -424,10 +285,12 @@ export const trustBadges = [
   },
 ]
 
-export const social = [
-  { id: 'instagram', label: 'Instagram', href: 'https://instagram.com/smokeandvapeco' },
-  { id: 'tiktok', label: 'TikTok', href: 'https://tiktok.com/@smokeandvapeco' },
-  { id: 'facebook', label: 'Facebook', href: 'https://facebook.com/smokeandvapeco' },
+/* Display order and labels for the footer's Follow column. The URLs are per
+   shop (site.social); a network the shop leaves blank is simply not listed. */
+export const socialNetworks = [
+  { id: 'instagram', label: 'Instagram' },
+  { id: 'tiktok', label: 'TikTok' },
+  { id: 'facebook', label: 'Facebook' },
 ]
 
 export const navLinks = [
@@ -442,8 +305,8 @@ export const nicotineWarning =
 
 /* Cookie notice. The site sets no analytics or tracking cookies today — this
    is the consent gate to put them behind. `getCookieConsent()` in
-   CookieConsent.jsx is what any future script should check before loading.
-   Keep the wording matched to what the site actually does. */
+   lib/cookieConsent.js is what any future script should check before
+   loading. Keep the wording matched to what the site actually does. */
 export const cookieNotice = {
   title: 'Cookies',
   text: 'We keep a single cookie to remember this choice. Nothing tracks you across other sites, and declining leaves the whole shop working exactly as it does now.',
@@ -452,12 +315,6 @@ export const cookieNotice = {
   manage: 'Cookie preferences',
 }
 
-/* The footer's fourth column. `since` is the only claim here that is not
-   already stated elsewhere in this file — confirm the year before launch. */
-export const footerBrand = {
-  name: shop.name,
-  line: 'Colorado Springs’ neighborhood smoke shop since 2019',
-  age: '21+ only — ID required at the counter',
-}
+export const footerAge = '21+ only — ID required at the counter'
 
-export const legalLine = '© 2026 Smoke & Vape Co. · 21+ Only'
+export const copyrightYear = 2026

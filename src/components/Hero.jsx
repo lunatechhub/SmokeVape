@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react'
 import Media from './Media'
 import { getOpenStatus } from '../lib/openStatus'
-import { addressLine1, directionsUrl, hero, shop } from '../data/site'
+import { directionsUrl, site } from '../data'
 import './Hero.css'
 
 function Hero() {
   const [status, setStatus] = useState(() => getOpenStatus())
   const [imageMissing, setImageMissing] = useState(false)
+  const image = site.images.hero
+
+  /* A portrait hero is laid out differently from a landscape one: it is shown
+     whole instead of being cropped to fill the copy column. The orientation
+     is read off the file's own dimensions in the tenant data, so each shop
+     gets the right treatment without this component naming any of them. */
+  const isPortrait = image.height > image.width
 
   useEffect(() => {
     const tick = setInterval(() => setStatus(getOpenStatus()), 60000)
@@ -15,31 +22,51 @@ function Hero() {
 
   return (
     <section className="hero" id="top">
-      <div className="hero__inner shell">
+      <div className={`hero__inner shell${isPortrait ? ' hero__inner--portrait' : ''}`}>
         <div className="hero__copy reveal reveal--hero">
-          <p className="eyebrow">{hero.eyebrow}</p>
-          <h1 className="hero__headline">{hero.headline}</h1>
-          <p className="lede hero__subtext">{hero.subtext}</p>
+          <p className="eyebrow">{site.tagline}</p>
+          <h1 className="hero__headline">{site.copy.headline}</h1>
+          <p className="lede hero__subtext">{site.copy.subtext}</p>
 
+          {/* status is null when the shop has no hours on file; the line
+              then carries the address alone, with no guessed status. */}
           <p className="hero__meta">
-            <span className={`hero__status ${status.isOpen ? 'hero__status--open' : ''}`}>
-              {/* The ring is a second circle behind the dot; it only renders
-                  while the shop is open, and the animation is dropped under
-                  reduced motion. */}
-              <span className="hero__status-light" aria-hidden="true">
-                {status.isOpen && <span className="hero__status-ring" />}
-                <span className="hero__status-dot" />
-              </span>
-              {status.label}
-            </span>
-            <span className="hero__meta-divider" aria-hidden="true">
-              ·
-            </span>
-            {addressLine1}
-            <span className="hero__meta-divider" aria-hidden="true">
-              ·
-            </span>
-            <span className="hero__meta-hours">Today {status.todayHours}</span>
+            {status && (
+              <>
+                <span className={`hero__status ${status.isOpen ? 'hero__status--open' : ''}`}>
+                  {/* The ring is a second circle behind the dot; it only
+                      renders while the shop is open, and the animation is
+                      dropped under reduced motion. */}
+                  <span className="hero__status-light" aria-hidden="true">
+                    {status.isOpen && <span className="hero__status-ring" />}
+                    <span className="hero__status-dot" />
+                  </span>
+                  {status.label}
+                </span>
+                <span className="hero__meta-divider" aria-hidden="true">
+                  ·
+                </span>
+              </>
+            )}
+            {site.address.line1}
+            {status && (
+              <>
+                <span className="hero__meta-divider" aria-hidden="true">
+                  ·
+                </span>
+                <span className="hero__meta-hours">Today {status.todayHours}</span>
+              </>
+            )}
+            {/* An optional perk the shop offers, set as one more item on
+                this line rather than a section or badge of its own. */}
+            {site.copy.perk && (
+              <>
+                <span className="hero__meta-divider" aria-hidden="true">
+                  ·
+                </span>
+                <span className="hero__perk">{site.copy.perk}</span>
+              </>
+            )}
           </p>
 
           <div className="hero__actions">
@@ -51,7 +78,7 @@ function Hero() {
             >
               Get Directions
             </a>
-            <a className="btn btn--outline btn--lg" href={shop.phoneHref}>
+            <a className="btn btn--outline btn--lg" href={site.phoneHref}>
               Call Us
             </a>
           </div>
@@ -79,15 +106,15 @@ function Hero() {
                 <path d="M21 16l-5-5-6 6-3-3-4 4" />
               </svg>
               <p className="hero__placeholder-label">Add photo</p>
-              <p className="hero__placeholder-file">{hero.image.src}</p>
+              <p className="hero__placeholder-file">{image.src}</p>
               <p className="hero__placeholder-hint">
-                {hero.image.width} × {hero.image.height} — {hero.image.alt}
+                {image.width} × {image.height} — {image.alt}
               </p>
             </div>
           ) : (
             <Media
               className="hero__image"
-              image={hero.image}
+              image={image}
               fetchPriority="high"
               onError={() => setImageMissing(true)}
             />

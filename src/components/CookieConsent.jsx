@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { REOPEN_EVENT, getCookieConsent, setCookieConsent } from '../lib/cookieConsent'
-import { cookieNotice } from '../data/site'
+import { cookieNotice } from '../data/shared'
 import './CookieConsent.css'
 
 function CookieConsent() {

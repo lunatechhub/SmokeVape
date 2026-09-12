@@ -6,8 +6,24 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "dev:demo": "vite --mode demo",
+    "build:demo": "vite build --mode demo --outDir dist-demo",
+    "preview:demo": "vite preview --outDir dist-demo",
+    "dev:lakewood": "vite --mode lakewood",
+    "build:lakewood": "vite build --mode lakewood --outDir dist-lakewood",
+    "preview:lakewood": "vite preview --outDir dist-lakewood",
+    "dev:littleton": "vite --mode littleton",
+    "build:littleton": "vite build --mode littleton --outDir dist-littleton",
+    "preview:littleton": "vite preview --outDir dist-littleton",
+    "dev:premium-cigar": "vite --mode premium-cigar",
+    "build:premium-cigar": "vite build --mode premium-cigar --outDir dist-premium-cigar",
+    "preview:premium-cigar": "vite preview --outDir dist-premium-cigar",
+    "dev:yours": "vite --mode yours",
+    "build:yours": "vite build --mode yours --outDir dist-yours",
+    "preview:yours": "vite preview --outDir dist-yours",
+    "build:all": "npm run build:lakewood && npm run build:littleton && npm run build:premium-cigar && npm run build:yours"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",

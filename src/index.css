@@ -229,10 +229,13 @@ h3 {
   scroll-margin-top: calc(var(--banner-h) + var(--nav-h) + 8px);
 }
 
-/* Keep the fixed mobile call bar from covering the end of the page. */
+/* Keep the fixed mobile call bar from covering the end of the page. The bar
+   is 56px of button plus its 1px top border, plus the home-indicator inset
+   on phones that have one. One more pixel absorbs a fractional page height,
+   which otherwise left the last sliver of the nicotine warning under it. */
 @media (max-width: 899px) {
   body {
-    padding-bottom: 56px;
+    padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px));
   }
 }
 

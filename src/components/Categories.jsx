@@ -1,5 +1,5 @@
 import Media from './Media'
-import { categories } from '../data/site'
+import { site } from '../data'
 import './Categories.css'
 
 function Categories() {
@@ -9,12 +9,12 @@ function Categories() {
         <div className="categories__head">
           <p className="eyebrow">What we carry</p>
           <h2 id="categories-heading" className="categories__heading">
-            Three shelves, kept full.
+            {site.copy.categoriesHeading}
           </h2>
         </div>
 
         <ul className="categories__grid">
-          {categories.map((category, index) => (
+          {site.categories.map((category, index) => (
             <li className="category-card" key={category.id} style={{ '--i': index }}>
               <div className="category-card__media media-frame">
                 <Media className="category-card__image" image={category.image} loading="lazy" />

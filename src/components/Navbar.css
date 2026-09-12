@@ -41,10 +41,71 @@
   letter-spacing: 0;
   text-decoration: none;
   white-space: nowrap;
+  /* A 44px tap target around 20-24px of type. The negative margin gives the
+     padding back, so the bar's layout does not move. */
+  padding-block: 12px;
+  margin-block: -12px;
+}
+
+/* A long trading name. The white-space: nowrap above is what keeps the mark on
+   one line — and it is also why a long name pushes the page wider rather than
+   wrapping: at 390px "Golden Vape & Smoke - Premium Cigar" measured 349px
+   against 375px of shell and, with the menu toggle beside it, put 427px of
+   content in a 375px viewport. The page scrolled sideways.
+
+   Only the floor of the clamp moves, 1.25rem to 1.0625rem. On a phone that
+   takes 344px of text down to about 292px, inside the ~319px the bar has left
+   once the toggle is placed; from 1024px up both values clamp to the same
+   1.5rem, so nothing changes on a desktop. Navbar.jsx applies this from the
+   name's own length, so a shop with a short name never takes it. */
+.navbar__wordmark--long {
+  font-size: clamp(1.0625rem, 2.4vw, 1.5rem);
 }
 
 .navbar__wordmark-dot {
   color: var(--accent);
+}
+
+/* Optional tenant logo, set beside the name at 40px (h-10). The name keeps
+   its own face, size and accent dot. Centred rather than baseline-aligned,
+   because an image's baseline is its bottom edge and would ride the mark
+   up above the text. The mark keeps its own colours; nothing in the theme
+   takes from it. */
+.navbar__wordmark--logo {
+  align-items: center;
+}
+
+.navbar__logo {
+  flex: none;
+  width: auto;
+  height: 2.5rem;
+  margin-right: 10px;
+  object-fit: contain;
+}
+
+/* Optional branch line under the name, for tenants that share a name with
+   another location. Stacked rather than set beside the name, so the mark
+   is no wider than before and still clears the menu button at 360px. It
+   borrows the eyebrow's sans, tracking and muted ink, one step smaller. */
+.navbar__wordmark-lockup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navbar__wordmark-name {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.navbar__wordmark-branch {
+  color: var(--ink-muted);
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 /* --- Centre links --------------------------------------------------------- */
@@ -60,9 +121,9 @@
 }
 
 .navbar__link {
-  /* 17px of text is a 17px hit area. The bar has 80px of height to spare, so
-     padding here costs no layout and takes the target past 24px. */
-  padding-block: 6px;
+  /* 17px of text is a 17px hit area. The link is inline, so vertical padding
+     costs no layout, and the bar's 80px has room for a 44px target. */
+  padding-block: 14px;
   color: var(--ink-muted);
   font-size: 0.875rem;
   font-weight: 500;
@@ -79,7 +140,10 @@
 /* --- Phone ---------------------------------------------------------------- */
 
 .navbar__phone {
-  padding-block: 6px;
+  /* 44px tall to the pointer; the negative margin keeps its layout box at
+     the original 6px padding. */
+  padding-block: 14px;
+  margin-block: -8px;
   display: none;
   color: var(--ink-muted);
   font-size: 0.875rem;
@@ -187,7 +251,11 @@
   border-top: 1px solid var(--line);
 }
 
+/* Both take padding for a 44px target and give it back as negative margin,
+   so the stack keeps its spacing. */
 .navbar__overlay-phone {
+  padding-block: 6px;
+  margin-block: -6px;
   color: var(--ink);
   font-size: 1.25rem;
   font-weight: 500;
@@ -195,6 +263,8 @@
 }
 
 .navbar__overlay-directions {
+  padding-block: 10px;
+  margin-block: -10px;
   color: var(--accent-dark);
   font-size: 1rem;
   font-weight: 500;

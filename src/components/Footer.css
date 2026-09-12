@@ -70,6 +70,72 @@
   gap: var(--space-2);
 }
 
+/* --- Visit band ----------------------------------------------------------- */
+
+/* The shop's own photograph beside its map. Both children are optional, so
+   this is a grid rather than a fixed pair: holding only one, it simply fills
+   the width. The --band above the map used to live on the map itself; it sits
+   here now, so a band carrying both does not stack two gaps. */
+.footer__visit {
+  display: grid;
+  gap: var(--band);
+  margin-top: var(--band);
+}
+
+/* Shown whole, never cropped — the file's own ratio sets the height, the same
+   rule the portrait hero follows. */
+.footer__visit-photo {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+/* While the band is one stacked column, a portrait photo given the full
+   footer width would run most of a screen tall. Capped and centred until
+   there is room to set it beside the map. */
+@media (max-width: 1023px) {
+  .footer__visit-photo {
+    max-width: 340px;
+    justify-self: center;
+  }
+}
+
+/* Two up, and ONLY when there is actually a photo to set beside the map —
+   hence the modifier rather than a rule on .footer__visit itself. Without it
+   a shop that has no photo still got the two-track grid, and its map, as the
+   band's only child, sat in the 380px first track: a full-width map became a
+   380x214 thumbnail on every shop without a visit photo.
+
+   At the widest shell 380px of photo measures 507px tall against the 16:9
+   map's 515px, so the pair finishes within 8px and reads as one band rather
+   than two blocks of different heights. */
+@media (min-width: 1024px) {
+  .footer__visit--split {
+    grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+/* --- Map ------------------------------------------------------------------ */
+
+/* Rendered only when the shop has a map embed. Its spacing comes from the
+   Visit band that wraps it. The corner is the one the category and product
+   photos carry. */
+.footer__map {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.footer__map-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 /* --- Detail columns ------------------------------------------------------- */
 
 /* One track per column, all equal. Nothing here is content-sized and nothing
@@ -231,13 +297,22 @@
   gap: var(--footer-step);
 }
 
+/* These links are inline, so their box is the 17px of type, not the line.
+   14px each way makes it 45px, and 4px each side takes the shortest label
+   ("TikTok") past 44px wide. Inline padding costs no layout vertically,
+   and the negative inline margin gives the sides back. */
+.footer__social .footer__link {
+  padding: 14px 4px;
+  margin-inline: -4px;
+}
+
 /* --- Links ---------------------------------------------------------------- */
 
 .footer__link {
-  /* The padding grows the hit area past 24px; the equal negative margin
-     cancels it in layout, so the 12px column rhythm is unchanged. */
-  padding-block: 4px;
-  margin-block: -4px;
+  /* The padding grows the hit area to 44.75px tall; the equal negative
+     margin cancels it in layout, so nothing moves. */
+  padding-block: 11px;
+  margin-block: -11px;
   color: #f4f3ef;
   font-size: inherit;
   line-height: inherit;
@@ -281,9 +356,37 @@
   font-size: 0.8125rem;
 }
 
+/* Optional tenant logo, kept to the height of the legal line it opens so a
+   high-contrast mark stays a small stamp on the dark ground. */
+.footer__legal-logo {
+  display: inline-block;
+  width: auto;
+  height: 1.25rem;
+  margin-right: 8px;
+  vertical-align: middle;
+  object-fit: contain;
+}
+
+/* The bar's line is 20.8px, so these take 12px each way for 44.8px. */
 .footer__top-link {
+  padding-block: 12px;
+  margin-block: -12px;
   color: #a8a69e;
   font-size: 0.8125rem;
+}
+
+/* Anything tapped rather than clicked. Stacked links sit one --footer-step
+   apart, and at 16px two 44px targets overlap: the pitch is only 38.75px.
+   22px gives each link its full 44.75px without touching its neighbour. The
+   bar's wrapped rows open by the same amount. A mouse keeps the 16px step. */
+@media (max-width: 899px), (pointer: coarse) {
+  .footer {
+    --footer-step: 22px;
+  }
+
+  .footer__bar {
+    row-gap: 24px;
+  }
 }
 
 @media (min-width: 640px) {
@@ -314,8 +417,13 @@
      gaps of 107px, 96px and 236px. Sizing each track to its content and
      letting space-between share out the slack puts the same gap between
      every pair, which is what the eye actually reads. */
+  /* One track per column that is actually rendered. A shop with no social
+     links has three columns, and a fixed repeat(4) would leave an empty
+     fourth track holding a gap at the right edge. */
   .footer__columns {
-    grid-template-columns: repeat(4, max-content);
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: max-content;
     justify-content: space-between;
   }
 

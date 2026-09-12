@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { reviews } from '../data/site'
+import { isSet, site } from '../data'
 import './Reviews.css'
 
 /* The score counts up once, the first time it is scrolled into view. It is
@@ -80,7 +80,7 @@ function Stars({ count, className }) {
    into cards. Four identical cards in a row reads as filler — a stacked
    column of quotes reads like someone actually chose them. */
 function Reviews() {
-  const [ratingRef, shownRating] = useCountUp(reviews.rating)
+  const [ratingRef, shownRating] = useCountUp(site.rating.score)
 
   return (
     <section
@@ -94,30 +94,30 @@ function Reviews() {
 
           <h2 id="reviews-heading" className="reviews__rating" ref={ratingRef}>
             <span aria-hidden="true">{shownRating}</span>
-            <span className="visually-hidden">{`Rated ${reviews.rating} out of 5 on Google`}</span>
+            <span className="visually-hidden">{`Rated ${site.rating.score} out of 5 on Google`}</span>
           </h2>
 
           <Stars count={5} className="reviews__stars" />
-          <p className="reviews__count">{reviews.count}</p>
+          <p className="reviews__count">{`Based on ${site.rating.count} reviews on Google`}</p>
 
-          <div className="reviews__ask">
-            <a
-              className="btn btn--accent"
-              href={reviews.reviewUrl}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              Leave us a review
-            </a>
-            <p className="reviews__note">
-              Thirty seconds of your time keeps a small Colorado Springs shop on the map.
-            </p>
-          </div>
+          {isSet(site.reviewUrl) && (
+            <div className="reviews__ask">
+              <a
+                className="btn btn--accent"
+                href={site.reviewUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                Leave us a review
+              </a>
+              <p className="reviews__note">{site.copy.reviewsNote}</p>
+            </div>
+          )}
         </div>
 
         <ul className="reviews__list">
-          {reviews.items.map((review, index) => (
-            <li className="review reveal" key={review.id} style={{ '--i': index }}>
+          {site.reviews.map((review, index) => (
+            <li className="review reveal" key={`${index}-${review.name}`} style={{ '--i': index }}>
               <blockquote className="review__quote">
                 <p>{review.quote}</p>
               </blockquote>

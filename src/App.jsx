@@ -10,8 +10,23 @@ import TrustBadges from './components/TrustBadges'
 import Footer from './components/Footer'
 import MobileCallBar from './components/MobileCallBar'
 import CookieConsent from './components/CookieConsent'
+import { site } from './data'
 
 function App() {
+  /* index.html ships no shop name of its own; the title and description
+     come from the active tenant. */
+  useEffect(() => {
+    document.title = site.seo.title
+
+    let description = document.querySelector('meta[name="description"]')
+    if (!description) {
+      description = document.createElement('meta')
+      description.setAttribute('name', 'description')
+      document.head.appendChild(description)
+    }
+    description.setAttribute('content', site.seo.description)
+  }, [])
+
   /* One observer reveals every element marked .reveal the first time it
      scrolls into view. Skipped entirely when reduced motion is requested. */
   useEffect(() => {

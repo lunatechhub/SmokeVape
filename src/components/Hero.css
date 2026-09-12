@@ -112,6 +112,15 @@
   white-space: nowrap;
 }
 
+/* Optional tenant perk on the meta line. Same size as the line it sits in;
+   ink and weight lift it above the muted address, the same step the
+   open/closed status takes. It never breaks mid-phrase. */
+.hero__perk {
+  color: var(--ink);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 /* --- Actions -------------------------------------------------------------- */
 
 /* Last item in the column: the gap to whatever follows is the section's
@@ -141,9 +150,29 @@
   width: 100%;
   aspect-ratio: 3 / 2;
   object-fit: cover;
-  object-position: 50% 50%;
+  /* Anchored to the top rather than the centre. These heroes are storefronts,
+     and a storefront wears its name across the top of the frame. A 1275x1020
+     file in a 723x464 frame overflows by 114px, and centring it took 57px off
+     the top — straight through the shop's sign, which is the one thing on the
+     photo a visitor actually needs to read. Anchoring high spends the whole
+     overflow on the pavement at the bottom instead.
+
+     Files already close to the frame's ratio barely move: the 1500x1000 and
+     240x160 heroes overflow by only 18px, so this costs them nothing. */
+  object-position: 50% 0%;
   /* Rounded on all four now that it no longer meets the viewport edge. */
   border-radius: var(--radius-hero);
+}
+
+/* A portrait hero is shown whole. There is no fixed frame for it to be
+   cropped into: the file's own ratio sets the height, so the top and bottom
+   of the shot stay in view. object-fit has nothing left to do once the box
+   and the image agree — contain is the safe answer if a later file does not
+   match, since it letterboxes rather than cuts. */
+.hero__inner--portrait .hero__image {
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 /* --- Photo slot (shown only while the file is missing) -------------------- */
@@ -197,6 +226,32 @@
   .hero__placeholder {
     aspect-ratio: 3 / 2;
   }
+
+  /* The portrait photo keeps its own ratio at every width. */
+  .hero__inner--portrait .hero__image {
+    aspect-ratio: auto;
+  }
+}
+
+/* While the hero is still one stacked column, a portrait photo given the full
+   column width gets very tall — 777px of column measured 1036px of photo at
+   880, taller than the viewport, which pushed the rest of the page off the
+   bottom of the screen. Capping the width holds it to a sane height; because
+   the height follows the width, the ratio is untouched and nothing is cropped
+   out of the shot.
+
+   The cap scales rather than sitting at one number, so the photo stays as
+   large as the width allows: 52vw between 360 and 460. On a phone the column
+   is already narrower than the floor, so the photo simply fills it and this
+   changes nothing there. */
+@media (max-width: 1023px) {
+  .hero__inner--portrait .hero__media {
+    justify-content: center;
+  }
+
+  .hero__inner--portrait .hero__image {
+    max-width: clamp(360px, 52vw, 460px);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -230,6 +285,37 @@
     width: 100%;
     height: 100%;
     border-radius: var(--radius-hero);
+  }
+
+  /* --- Portrait hero ------------------------------------------------------
+     A tall shot cannot fill the wide column above without losing its top and
+     bottom to the crop. So it gets a column cut to the photo instead, centred
+     against the copy rather than stretched to its height, and drops back into
+     normal flow where its own ratio decides how tall it is.
+
+     The column grows with the viewport instead of sitting at one width: 34vw
+     between a 380px floor and a 560px ceiling. The floor is what keeps the
+     copy beside it wider than its own 28rem subtext at 1024, so nothing
+     rewraps; the ceiling stops the photo from running away on a wide screen,
+     where 3:4 would otherwise turn 700px of width into 933px of height. At
+     the 560px ceiling the 1200px file still has 2.1x the pixels it needs. */
+  .hero__inner--portrait {
+    grid-template-columns: minmax(0, 1fr) minmax(0, clamp(380px, 34vw, 560px));
+    align-items: center;
+  }
+
+  .hero__inner--portrait .hero__media {
+    position: static;
+    align-self: center;
+    min-height: 0;
+  }
+
+  .hero__inner--portrait .hero__image {
+    position: static;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
   }
 }
 

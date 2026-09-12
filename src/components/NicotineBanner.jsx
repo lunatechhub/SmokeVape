@@ -1,4 +1,4 @@
-import { nicotineWarning } from '../data/site'
+import { nicotineWarning } from '../data/shared'
 import './NicotineBanner.css'
 
 function NicotineBanner({ position = 'top' }) {

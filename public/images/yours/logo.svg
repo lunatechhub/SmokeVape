@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Yours Vape &amp; Smoke">
+  <title>Yours Vape &amp; Smoke</title>
+  <!--
+    The mark is drawn to survive 20px. It appears at 2.5rem in the navbar on
+    the light page ground and at 1.25rem in the footer on the dark one, so it
+    carries its own ground rather than borrowing either: a filled disc reads
+    the same against the page cream and the footer's near-black.
+
+    The Y is geometry, not type. An SVG loaded through an img element cannot
+    reach a webfont, so a text element would fall back to whatever face the
+    device happened to have and the mark would differ per machine. Stroked
+    paths render identically everywhere. Round caps and joins echo the pill
+    buttons elsewhere on the page.
+
+    Colours are the palette's own accent and accent dark, with the footer's
+    light cream on top.
+
+    Note for future edits: this is XML, so a comment may not contain a double
+    hyphen. Writing the CSS custom property names here in full breaks the
+    parse, the img errors, and both the navbar and footer silently fall back
+    to their text only mark.
+  -->
+  <defs>
+    <linearGradient id="yoursMark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6b8870" />
+      <stop offset="1" stop-color="#4c6350" />
+    </linearGradient>
+  </defs>
+
+  <circle cx="32" cy="32" r="32" fill="url(#yoursMark)" />
+
+  <!-- Inset keyline. Low enough in contrast that it adds a crafted edge at
+       40px and simply melts into the disc at 20px rather than muddying it. -->
+  <circle cx="32" cy="32" r="27.25" fill="none" stroke="#f4f3ef" stroke-opacity="0.26" stroke-width="1.5" />
+
+  <!-- A single wisp lifting off the Y's right arm. Kept faint so it reads as
+       vapour at full size and disappears cleanly when the mark is tiny. -->
+  <path d="M45.5 25.5c3.6-2.4 3.6-6.4 0-8.8" fill="none" stroke="#f4f3ef" stroke-opacity="0.5"
+        stroke-width="2.6" stroke-linecap="round" />
+
+  <!-- Y monogram -->
+  <g fill="none" stroke="#f4f3ef" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 19.5 32 34.5 43 19.5" />
+    <path d="M32 34.5V46.5" />
+  </g>
+</svg>

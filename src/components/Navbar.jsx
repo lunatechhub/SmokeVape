@@ -1,16 +1,21 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { directionsUrl, navLinks, shop } from '../data/site'
+import { directionsUrl, site } from '../data'
+import { navLinks } from '../data/shared'
 import './Navbar.css'
 
 const FOCUSABLE = 'a[href], button:not([disabled])'
 
-/* The name already ends in a period ("Smoke & Vape Co."); it is split off so
-   it can carry the accent colour. */
-const wordmarkText = shop.name.replace(/\.$/, '')
+/* The wordmark always ends on an accent-coloured period. A name that already
+   ends in one ("… Co.") has it split off so it is not doubled. */
+const wordmarkText = site.name.replace(/\.$/, '')
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  /* A tenant logo that fails to load drops back to the text-only mark
+     rather than leaving an empty 40px box in the bar. */
+  const [logoFailed, setLogoFailed] = useState(false)
+  const showLogo = Boolean(site.logo) && !logoFailed
   const menuRef = useRef(null)
   const toggleRef = useRef(null)
 
@@ -67,11 +72,58 @@ function Navbar() {
   return (
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
       <div className="navbar__inner shell">
-        <a className="navbar__wordmark" href="#top" aria-label={`${shop.name} — back to top`}>
-          <span aria-hidden="true">{wordmarkText}</span>
-          <span className="navbar__wordmark-dot" aria-hidden="true">
-            .
-          </span>
+        <a
+          className={[
+            'navbar__wordmark',
+            showLogo ? 'navbar__wordmark--logo' : '',
+            /* A long trading name overruns the bar on a phone. Measured at
+               390px, "Golden Vape & Smoke - Premium Cigar" came to 349px
+               against 375px of shell, and with the menu toggle beside it the
+               page scrolled sideways — 427px of content in a 375px viewport.
+               The modifier lets that one name sit a step smaller on small
+               screens; shops with a short name never match it and keep the
+               size they have. */
+            wordmarkText.length > 28 ? 'navbar__wordmark--long' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          href="#top"
+          aria-label={`${site.branch ? `${site.name} ${site.branch}` : site.name} — back to top`}
+        >
+          {showLogo && (
+            <img
+              className="navbar__logo"
+              src={site.logo}
+              alt=""
+              width="40"
+              height="40"
+              onError={() => setLogoFailed(true)}
+            />
+          )}
+          {/* A tenant that shares its name with another location sets
+              `branch`, which sits on a small line under the name so the
+              two sites can be told apart. Without it, the mark is the name
+              alone, exactly as before. */}
+          {site.branch ? (
+            <span className="navbar__wordmark-lockup">
+              <span className="navbar__wordmark-name">
+                <span aria-hidden="true">{wordmarkText}</span>
+                <span className="navbar__wordmark-dot" aria-hidden="true">
+                  .
+                </span>
+              </span>
+              <span className="navbar__wordmark-branch" aria-hidden="true">
+                {site.branch}
+              </span>
+            </span>
+          ) : (
+            <>
+              <span aria-hidden="true">{wordmarkText}</span>
+              <span className="navbar__wordmark-dot" aria-hidden="true">
+                .
+              </span>
+            </>
+          )}
         </a>
 
         <nav className="navbar__nav" aria-label="Primary">
@@ -86,8 +138,8 @@ function Navbar() {
           </ul>
         </nav>
 
-        <a className="navbar__phone" href={shop.phoneHref}>
-          {shop.phone}
+        <a className="navbar__phone" href={site.phoneHref}>
+          {site.phone}
         </a>
 
         <button
@@ -125,8 +177,8 @@ function Navbar() {
         </nav>
 
         <div className="navbar__overlay-footer">
-          <a className="navbar__overlay-phone" href={shop.phoneHref} onClick={closeMenu}>
-            {shop.phone}
+          <a className="navbar__overlay-phone" href={site.phoneHref} onClick={closeMenu}>
+            {site.phone}
           </a>
           <a
             className="navbar__overlay-directions"

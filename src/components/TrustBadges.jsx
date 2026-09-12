@@ -1,4 +1,4 @@
-import { trustBadges } from '../data/site'
+import { trustBadges } from '../data/shared'
 import './TrustBadges.css'
 
 /* Thin line icons, inline — no icon library. */

@@ -56,9 +56,18 @@
 /* Smaller than the page's standard button — this is a quiet decision, not a
    call to action competing with Directions and Call Us. */
 .cookie__btn {
+  position: relative;
   min-height: 40px;
   padding: 8px 22px;
   font-size: 0.875rem;
+}
+
+/* The pill stays 40px to the eye; an invisible 3px band above and below
+   takes the tap target past 44px. */
+.cookie__btn::before {
+  content: '';
+  position: absolute;
+  inset: -3px 0;
 }
 
 @keyframes cookie-in {

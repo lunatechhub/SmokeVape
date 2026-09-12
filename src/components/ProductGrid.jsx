@@ -1,5 +1,6 @@
 import Media from './Media'
-import { badgeLegend, products } from '../data/site'
+import { site } from '../data'
+import { badgeLegend } from '../data/shared'
 import './ProductGrid.css'
 
 /* The badge is a coloured dot that grows into a labelled pill on hover or
@@ -19,6 +20,11 @@ function Badge({ badge }) {
 }
 
 function ProductGrid() {
+  /* The legend explains only the badges this shop actually uses. */
+  const legend = badgeLegend.filter((badge) =>
+    site.products.some((product) => product.badge?.id === badge.id),
+  )
+
   return (
     <section
       className="products section section--anchor"
@@ -37,7 +43,7 @@ function ProductGrid() {
         </div>
 
         <ul className="products__grid">
-          {products.map((product, index) => (
+          {site.products.map((product, index) => (
             <li className="product-card reveal" key={product.id} style={{ '--i': index }}>
               <div className="product-card__media media-frame">
                 {product.badge && <Badge badge={product.badge} />}
@@ -52,14 +58,16 @@ function ProductGrid() {
           ))}
         </ul>
 
-        <ul className="products__legend reveal">
-          {badgeLegend.map((badge) => (
-            <li className="products__legend-item" key={badge.id}>
-              <span className={`products__legend-dot badge--${badge.id}`} aria-hidden="true" />
-              {badge.label}
-            </li>
-          ))}
-        </ul>
+        {legend.length > 0 && (
+          <ul className="products__legend reveal">
+            {legend.map((badge) => (
+              <li className="products__legend-item" key={badge.id}>
+                <span className={`products__legend-dot badge--${badge.id}`} aria-hidden="true" />
+                {badge.label}
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   )
