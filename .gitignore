@@ -13,6 +13,12 @@ dist-*
 dist-ssr
 *.local
 
+# The Vercel CLI writes .vercel/project.json the moment a directory is linked
+# to a project. It carries the project and org IDs, and this repository is
+# public, so it stays out of the tree. Each of the five sites is its own
+# Vercel project pointing at this same repo.
+.vercel
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -23,3 +29,16 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
+.env*
+
+# `vercel link` appends the .env* rule above. These five hold nothing but a
+# VITE_TENANT value and every Vercel build reads one, so they are exempted:
+# without this, the CLI drops them from the deploy upload and each build dies
+# with "No shop set for --mode <key>".
+!.env.demo
+!.env.lakewood
+!.env.littleton
+!.env.premium-cigar
+!.env.yours
